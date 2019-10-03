@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en-us">
+<html class="no-js" lang="zh-cn">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +24,18 @@
 	<link rel="stylesheet" href="/css/custom.css">
 	<link rel="shortcut icon" href="/favicon.ico">
 		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-149339844-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
 </head>
 <body class="body">
 	<div class="container container--outer">
@@ -43,8 +55,8 @@
 			
 <main class="main" role="main">
 	<div class="warning">
-		<h1 class="warning__headline">404. Page not found</h1>
-		<p class="warning__text">The page you were looking for appears to have been moved, deleted or does not exist. Please, use search or go to <a href="/">main page</a>.</p>
+		<h1 class="warning__headline">404. 抱歉，找不到您要找的页面</h1>
+		<p class="warning__text">您要找的页面可能已经被移除、刪除或不存在，不妨去首页搜索一下吧。 <a href="/">回到首页</a>.</p>
 	</div>
 </main>
 
@@ -53,33 +65,43 @@
 <aside class="sidebar sidebar--left"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
-			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+			<input class="widget-search__field" type="search" placeholder="搜索..." value="" name="q" aria-label="搜索...">
 		</label>
 		<input class="widget-search__submit" type="submit" value="Search">
 		<input type="hidden" name="sitesearch" value="/" />
 	</form>
 </div>
 <div class="widget-recent widget">
-	<h4 class="widget__title">Recent Posts</h4>
+	<h4 class="widget__title">近期文章</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/post/first/">git上传错误码 403 fatal HTTP request failed</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/mac_skill/">Mac系统中安全性与隐私中没有&#34;任何来源&#34;选项</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/wget/">如何通过命令行使用wget批量下载文件</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/bash_txt/">如何通过命令行批量下载文件</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/node_npm/">转载:npm安装包失败 npm国内镜像</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/image_magick/">通过Shell终端命令行与ImageMagick快速对图像进行批处理</a></li>
 		</ul>
 	</div>
 </div>
 <div class="widget-categories widget">
-	<h4 class="widget__title">Categories</h4>
+	<h4 class="widget__title">分类</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/categories/%e7%bc%96%e7%a8%8b">编程</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/coding">Coding</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/system">System</a></li>
 		</ul>
 	</div>
 </div>
 <div class="widget-taglist widget">
-	<h4 class="widget__title">Tags</h4>
+	<h4 class="widget__title">标签</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/error" title="Error">Error</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/git" title="Git">Git</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/imagemagick" title="Imagemagick">Imagemagick</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac" title="Mac">Mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/node" title="Node">Node</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell" title="Shell">Shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e5%9b%bd%e5%86%85%e6%ba%90" title="国内源">国内源</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e5%9b%be%e5%83%8f%e5%a4%84%e7%90%86" title="图像处理">图像处理</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e6%8a%80%e5%b7%a7" title="技巧">技巧</a>
 	</div>
 </div>
 </aside>
@@ -89,7 +111,7 @@
 		
 		<div class="footer__copyright">
 			&copy; 2019 TecX.
-			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+			<span class="footer__copyright-credits">基于 <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> 引擎和 <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>主題</span>
 		</div>
 	</div>
 </footer>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>图像处理 on TecX</title>
+    <link>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
+    <description>Recent content in 图像处理 on TecX</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 31 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>通过Shell终端命令行与ImageMagick快速对图像进行批处理</title>
+      <link>/post/image_magick/</link>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/image_magick/</guid>
+      <description>&lt;p&gt;ImageMagick实现的功能与拥有图形界面的Photoshop类似，区别在于他通过命令行工具实现功能的调用，因此完成同样的图像处理任务，ImageMagick的效率更高，速度更快。
+&lt;a href=&#34;https://www.imagemagick.org&#34;&gt;https://www.imagemagick.org&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

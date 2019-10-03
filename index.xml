@@ -5,19 +5,58 @@
     <link>/</link>
     <description>Recent content on TecX</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 31 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>git上传错误码 403 fatal HTTP request failed</title>
-      <link>/post/first/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Mac系统中安全性与隐私中没有&#34;任何来源&#34;选项</title>
+      <link>/post/mac_skill/</link>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/first/</guid>
-      <description>&lt;p&gt;上传到git时发生
-fatal: unable to access &amp;lsquo;&lt;a href=&#34;https://github.com/xxx&#39;:&#34;&gt;https://github.com/xxx&#39;:&lt;/a&gt; The requested URL returned error: 403&lt;/p&gt;</description>
+      <guid>/post/mac_skill/</guid>
+      <description>&lt;p&gt;安装某软件时提示xxx.app出错，
+进入到安全性与隐私中发现没有&amp;rdquo;任何来源&amp;rdquo;选项。
+解决办法：&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何通过命令行使用wget批量下载文件</title>
+      <link>/post/wget/</link>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/wget/</guid>
+      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何通过命令行批量下载文件</title>
+      <link>/post/bash_txt/</link>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bash_txt/</guid>
+      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>转载:npm安装包失败 npm国内镜像</title>
+      <link>/post/node_npm/</link>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/node_npm/</guid>
+      <description>&lt;p&gt;镜像使用方法（三种办法任意一种都能解决问题，建议使用第三种，将配置写死，下次用的时候配置还在）:&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>通过Shell终端命令行与ImageMagick快速对图像进行批处理</title>
+      <link>/post/image_magick/</link>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/image_magick/</guid>
+      <description>&lt;p&gt;ImageMagick实现的功能与拥有图形界面的Photoshop类似，区别在于他通过命令行工具实现功能的调用，因此完成同样的图像处理任务，ImageMagick的效率更高，速度更快。
+&lt;a href=&#34;https://www.imagemagick.org&#34;&gt;https://www.imagemagick.org&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
