@@ -4,18 +4,20 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>如何通过命令行批量下载文件 - Mainroad</title>
+	<title>git上传错误码 403 fatal HTTP request failed - TecX</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="如何通过命令行批量下载文件" />
-<meta property="og:description" content="项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。" />
+	<meta property="og:title" content="git上传错误码 403 fatal HTTP request failed" />
+<meta property="og:description" content="上传到git时发生
+fatal: unable to access &lsquo;https://github.com/xxx&#39;: The requested URL returned error: 403" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://heathhank.github.io/post/first/" />
+<meta property="og:url" content="/post/first/" />
 
 
 	<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="如何通过命令行批量下载文件"/>
-<meta name="twitter:description" content="项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。"/>
+<meta name="twitter:title" content="git上传错误码 403 fatal HTTP request failed"/>
+<meta name="twitter:description" content="上传到git时发生
+fatal: unable to access &lsquo;https://github.com/xxx&#39;: The requested URL returned error: 403"/>
 
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -30,9 +32,9 @@
 		<header class="header">
 	<div class="container">
 		<div class="logo">
-			<a class="logo__link" href="/" title="Mainroad" rel="home">
-				<div class="logo__title">Mainroad</div>
-				<div class="logo__tagline">Just another site</div>
+			<a class="logo__link" href="/" title="TecX" rel="home">
+				<div class="logo__title">TecX</div>
+				<div class="logo__tagline">编程/设计/数据/可视化</div>
 			</a>
 		</div>
 		<div class="divider"></div>
@@ -44,11 +46,11 @@
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">如何通过命令行批量下载文件</h1>
+			<h1 class="post__title">git上传错误码 403 fatal HTTP request failed</h1>
 			<div class="post__meta meta">
 <div class="meta__item-categories meta__item">
 	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/system" rel="category">system</a></span>
+	<span class="meta__text"><a class="meta__link" href="/categories/%e7%bc%96%e7%a8%8b" rel="category">编程</a></span>
 </div>
 </div>
 		</header>
@@ -59,56 +61,38 @@
 <ul>
 <li>
 <ul>
-<li><a href="#wget">wget</a>
-<ul>
-<li><a href="#批量下载方法">批量下载方法</a></li>
-</ul></li>
+<li><a href="#解决方法">解决方法</a></li>
 </ul></li>
 </ul>
 </nav>
 	</div>
 </div>
 <div class="content post__content clearfix">
-			<p>项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。</p>
+			<p>上传到git时发生
+fatal: unable to access &lsquo;<a href="https://github.com/xxx':">https://github.com/xxx':</a> The requested URL returned error: 403</p>
 
-<h2 id="wget">wget</h2>
+<h2 id="解决方法">解决方法</h2>
 
-<p>wget命令用来从指定的URL下载文件，更多用法 参见<a href="https://man.linuxde.net/wget">https://man.linuxde.net/wget</a></p>
-
-<h3 id="批量下载方法">批量下载方法</h3>
-
-<p>将下载链接的地址存在url.txt，使用换行分割
-进入同级目录，</p>
-
-<pre><code class="language-bash">wget -i url.txt
-</code></pre>
-
-<p>其中，-i是下载选项，用于从指定文件获取要下载的URL地址。</p>
+<ol>
+<li>在 <code>repo</code> 目录中 编辑 <code>.git/config</code> 文件</li>
+<li>在<code>[remote &quot;origin&quot;]</code>后找到 <code>url=entry</code></li>
+<li>修改<code>url=https://MichaelDrogalis@github.com/derekerdmann/lunch_call.git</code> 为 <code>url=ssh://git@github.com/derekerdmann/lunch_call.git</code></li>
+<li>保存并退出</li>
+</ol>
 		</div>
 		<footer class="post__footer">
 			
 <div class="post__tags tags clearfix">
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
-		<li class="tags__item"><a class="tags__link btn" href="/tags/mac/" rel="tag">mac</a></li>
-		<li class="tags__item"><a class="tags__link btn" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/git/" rel="tag">git</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/error/" rel="tag">error</a></li>
 	</ul>
 </div>
 		</footer>
 	</article>
 </main>
 
-<div class="authorbox clearfix">
-	<figure class="authorbox__avatar">
-		<img alt="John Doe avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
-	</figure>
-	<div class="authorbox__header">
-		<span class="authorbox__name">About John Doe</span>
-	</div>
-	<div class="authorbox__description">
-		John Doe&#39;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
-	</div>
-</div>
 
 
 
@@ -119,7 +103,7 @@
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">
-			&copy; 2019 Mainroad.
+			&copy; 2019 TecX.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>

@@ -3,35 +3,35 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://heathhank.github.io/categories/</loc>
+    <loc>/categories/</loc>
   </url>
   
   <url>
-    <loc>http://heathhank.github.io/tags/mac/</loc>
+    <loc>/tags/error/</loc>
   </url>
   
   <url>
-    <loc>http://heathhank.github.io/</loc>
+    <loc>/tags/git/</loc>
   </url>
   
   <url>
-    <loc>http://heathhank.github.io/post/</loc>
+    <loc>/post/first/</loc>
   </url>
   
   <url>
-    <loc>http://heathhank.github.io/categories/system/</loc>
+    <loc>/post/</loc>
   </url>
   
   <url>
-    <loc>http://heathhank.github.io/tags/</loc>
+    <loc>/tags/</loc>
   </url>
   
   <url>
-    <loc>http://heathhank.github.io/post/first/</loc>
+    <loc>/</loc>
   </url>
   
   <url>
-    <loc>http://heathhank.github.io/tags/%E6%8A%80%E5%B7%A7/</loc>
+    <loc>/categories/%E7%BC%96%E7%A8%8B/</loc>
   </url>
   
 </urlset>

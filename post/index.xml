@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Mainroad</title>
-    <link>http://heathhank.github.io/post/</link>
-    <description>Recent content in Posts on Mainroad</description>
+    <title>Posts on TecX</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on TecX</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="http://heathhank.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>如何通过命令行批量下载文件</title>
-      <link>http://heathhank.github.io/post/first/</link>
+      <title>git上传错误码 403 fatal HTTP request failed</title>
+      <link>/post/first/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://heathhank.github.io/post/first/</guid>
-      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
+      <guid>/post/first/</guid>
+      <description>&lt;p&gt;上传到git时发生
+fatal: unable to access &amp;lsquo;&lt;a href=&#34;https://github.com/xxx&#39;:&#34;&gt;https://github.com/xxx&#39;:&lt;/a&gt; The requested URL returned error: 403&lt;/p&gt;</description>
     </item>
     
   </channel>
