@@ -23,25 +23,7 @@
     </item>
     
     <item>
-      <title>如何通过命令行使用wget批量下载文件</title>
-      <link>/post/wget/</link>
-      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/wget/</guid>
-      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>如何通过命令行批量下载文件</title>
-      <link>/post/bash_txt/</link>
-      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/bash_txt/</guid>
-      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>转载:npm安装包失败 npm国内镜像</title>
+      <title>npm安装包失败 npm国内镜像</title>
       <link>/post/node_npm/</link>
       <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -50,13 +32,12 @@
     </item>
     
     <item>
-      <title>通过Shell终端命令行与ImageMagick快速对图像进行批处理</title>
-      <link>/post/image_magick/</link>
+      <title>如何通过命令行使用wget批量下载文件</title>
+      <link>/post/wget/</link>
       <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/image_magick/</guid>
-      <description>&lt;p&gt;ImageMagick实现的功能与拥有图形界面的Photoshop类似，区别在于他通过命令行工具实现功能的调用，因此完成同样的图像处理任务，ImageMagick的效率更高，速度更快。
-&lt;a href=&#34;https://www.imagemagick.org&#34;&gt;https://www.imagemagick.org&lt;/a&gt;&lt;/p&gt;</description>
+      <guid>/post/wget/</guid>
+      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
     </item>
     
   </channel>

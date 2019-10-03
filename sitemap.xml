@@ -13,11 +13,6 @@
   </url>
   
   <url>
-    <loc>/tags/imagemagick/</loc>
-    <lastmod>2018-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/mac/</loc>
     <lastmod>2018-12-31T00:00:00+00:00</lastmod>
   </url>
@@ -33,12 +28,12 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
+    <loc>/post/node_npm/</loc>
     <lastmod>2018-12-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/shell/</loc>
+    <loc>/post/</loc>
     <lastmod>2018-12-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -63,32 +58,12 @@
   </url>
   
   <url>
-    <loc>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2018-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/wget/</loc>
     <lastmod>2018-12-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/bash_txt/</loc>
-    <lastmod>2018-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/%E6%8A%80%E5%B7%A7/</loc>
-    <lastmod>2018-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/node_npm/</loc>
-    <lastmod>2018-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/image_magick/</loc>
     <lastmod>2018-12-31T00:00:00+00:00</lastmod>
   </url>
   
