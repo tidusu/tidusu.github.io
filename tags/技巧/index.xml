@@ -23,11 +23,20 @@
     </item>
     
     <item>
-      <title>如何通过命令行使用wget批量下载文件</title>
-      <link>/post/wget/</link>
+      <title>如何在mac/Linux中通过命令行对文件进行合并分割</title>
+      <link>/post/linux_cat/</link>
       <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/wget/</guid>
+      <guid>/post/linux_cat/</guid>
+      <description>&lt;p&gt;cat可以将若干小文件合并成一个完整的文件，split可以将大文件按照需求切分成若干小文件。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何通过命令行使用wget批量下载文件</title>
+      <link>/post/linux_wget/</link>
+      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linux_wget/</guid>
       <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
     </item>
     
