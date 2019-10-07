@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>字符串 on TecX</title>
-    <link>/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+    <link>tecx.me/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
     <description>Recent content in 字符串 on TecX</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 01 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="tecx.me/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>如何在sqlite中通过分隔符拆分字符串</title>
-      <link>/post/sqlite_spilt/</link>
+      <link>tecx.me/post/sqlite_spilt/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/sqlite_spilt/</guid>
+      <guid>tecx.me/post/sqlite_spilt/</guid>
       <description>&lt;p&gt;数据库中经常需要通过分隔符对字符串进行拆分，sqlite中并没有对应的命令，最简便的方法是使用CTE(common table expression)来解决。&lt;/p&gt;</description>
     </item>
     
