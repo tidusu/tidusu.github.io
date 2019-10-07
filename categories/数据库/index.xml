@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>数据库 on TecX</title>
+    <title>数据库 on TecX 编程/设计/数据/可视化</title>
     <link>tecx.me/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
-    <description>Recent content in 数据库 on TecX</description>
+    <description>Recent content in 数据库 on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 01 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="tecx.me/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>如何在sqlite中查询固定时间段的数据</title>
+      <link>tecx.me/post/sqlite_time2/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>tecx.me/post/sqlite_time2/</guid>
+      <description>&lt;p&gt;固定时间段的查询是非常常用的功能，这里介绍几个sqlite中的语句。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何将sqlite时间戳精确到毫秒</title>
+      <link>tecx.me/post/sqlite_time1/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>tecx.me/post/sqlite_time1/</guid>
+      <description>&lt;p&gt;sqlite默认的时间戳10位，并不支持直接生成13位的毫秒级时间戳，使用拼接的方法可以实现。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>如何在sqlite中通过分隔符拆分字符串</title>

@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on TecX</title>
+    <title>Tags on TecX 编程/设计/数据/可视化</title>
     <link>tecx.me/tags/</link>
-    <description>Recent content in Tags on TecX</description>
+    <description>Recent content in Tags on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="tecx.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>sqlite</title>
+      <link>tecx.me/tags/sqlite/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>tecx.me/tags/sqlite/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>时间</title>
+      <link>tecx.me/tags/%E6%97%B6%E9%97%B4/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>tecx.me/tags/%E6%97%B6%E9%97%B4/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ImageMagick</title>
@@ -62,15 +80,6 @@
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>tecx.me/tags/node/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sqlite</title>
-      <link>tecx.me/tags/sqlite/</link>
-      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>tecx.me/tags/sqlite/</guid>
       <description></description>
     </item>
     
