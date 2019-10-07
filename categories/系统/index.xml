@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>系统 on TecX</title>
+    <link>/categories/%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in 系统 on TecX</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>如何在mac/Linux中通过命令行对文件进行合并分割</title>
+      <link>/post/linux_cat/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linux_cat/</guid>
+      <description>&lt;p&gt;cat可以将若干小文件合并成一个完整的文件，split可以将大文件按照需求切分成若干小文件。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何通过命令行使用wget批量下载文件</title>
+      <link>/post/linux_wget/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linux_wget/</guid>
+      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>通过Shell终端命令行与ImageMagick快速对图像批量瘦身</title>
+      <link>/post/image_magick_1/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/image_magick_1/</guid>
+      <description>&lt;p&gt;ImageMagick实现的功能与拥有图形界面的Photoshop类似，区别在于他通过命令行工具实现功能的调用，因此完成同样的图像处理任务，ImageMagick的效率更高，速度更快。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mac系统中安全性与隐私中没有&#34;任何来源&#34;选项</title>
+      <link>/post/mac_skill/</link>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mac_skill/</guid>
+      <description>&lt;p&gt;安装某软件时提示xxx.app出错，
+进入到安全性与隐私中发现没有&amp;rdquo;任何来源&amp;rdquo;选项。
+解决办法：&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>npm安装包失败 npm国内镜像</title>
+      <link>/post/node_npm/</link>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/node_npm/</guid>
+      <description>&lt;p&gt;镜像使用方法（三种办法任意一种都能解决问题，建议使用第三种，将配置写死，下次用的时候配置还在）:&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

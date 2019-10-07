@@ -6,26 +6,26 @@
     <description>Recent content in Categories on TecX</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 01 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>coding</title>
-      <link>/categories/coding/</link>
-      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
+      <title>系统</title>
+      <link>/categories/%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/coding/</guid>
+      <guid>/categories/%E7%B3%BB%E7%BB%9F/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>system</title>
-      <link>/categories/system/</link>
-      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      <title>数据库</title>
+      <link>/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/system/</guid>
+      <guid>/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
       <description></description>
     </item>
     

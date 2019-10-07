@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>文件管理 on TecX</title>
+    <link>/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</link>
+    <description>Recent content in 文件管理 on TecX</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>如何在mac/Linux中通过命令行对文件进行合并分割</title>
+      <link>/post/linux_cat/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linux_cat/</guid>
+      <description>&lt;p&gt;cat可以将若干小文件合并成一个完整的文件，split可以将大文件按照需求切分成若干小文件。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何通过命令行使用wget批量下载文件</title>
+      <link>/post/linux_wget/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linux_wget/</guid>
+      <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

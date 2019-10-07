@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>sqlite - TecX</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="sqlite" />
+<meta property="og:description" content="John Doe&#39;s Personal blog about everything" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/tags/sqlite/" />
+
+<meta property="og:updated_time" content="2019-10-01T00:00:00+00:00" />
+
+	<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="sqlite"/>
+<meta name="twitter:description" content="John Doe&#39;s Personal blog about everything"/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="alternate" type="application/rss+xml" href="/tags/sqlite/index.xml" title="TecX">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-149339844-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="TecX" rel="home">
+				<div class="logo__title">TecX</div>
+				<div class="logo__tagline">编程/设计/数据/可视化 一分钟技巧分享</div>
+			</a>
+		</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">sqlite</h1>
+	</header><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/sqlite_spilt/" rel="bookmark">
+			如何在sqlite中通过分隔符拆分字符串
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2019-10-01T00:00:00">October 01, 2019</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/%e6%95%b0%e6%8d%ae%e5%ba%93" rel="category">数据库</a></span>
+</div>
+</div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>数据库中经常需要通过分隔符对字符串进行拆分，sqlite中并没有对应的命令，最简便的方法是使用CTE(common table expression)来解决。</p>
+	</div>
+</article>
+</main>
+
+
+			</div>
+			
+<aside class="sidebar sidebar--left"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="搜索..." value="" name="q" aria-label="搜索...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">近期文章</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/linux_cat/">如何在mac/Linux中通过命令行对文件进行合并分割</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/linux_wget/">如何通过命令行使用wget批量下载文件</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/image_magick_1/">通过Shell终端命令行与ImageMagick快速对图像批量瘦身</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/mac_skill/">Mac系统中安全性与隐私中没有&#34;任何来源&#34;选项</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/node_npm/">npm安装包失败 npm国内镜像</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">分类</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/%e6%95%b0%e6%8d%ae%e5%ba%93">数据库</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/%e7%b3%bb%e7%bb%9f">系统</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">标签</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/imagemagick" title="Imagemagick">Imagemagick</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac" title="Mac">Mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/node" title="Node">Node</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sqlite" title="Sqlite">Sqlite</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e5%91%bd%e4%bb%a4%e8%a1%8c" title="命令行">命令行</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e5%9b%bd%e5%86%85%e6%ba%90" title="国内源">国内源</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e5%9b%be%e5%83%8f%e5%a4%84%e7%90%86" title="图像处理">图像处理</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e5%ad%97%e7%ac%a6%e4%b8%b2" title="字符串">字符串</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86" title="文件管理">文件管理</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%e8%bd%af%e4%bb%b6%e5%ae%89%e8%a3%85" title="软件安装">软件安装</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 TecX.
+			<span class="footer__copyright-credits">基于 <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> 引擎和 <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>主題</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+<script src="/js/custom.js"></script></body>
+</html>

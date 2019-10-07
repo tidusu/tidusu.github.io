@@ -6,7 +6,7 @@
     <description>Recent content in Tags on TecX</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 01 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,63 +14,90 @@
     <item>
       <title>ImageMagick</title>
       <link>/tags/imagemagick/</link>
-      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/imagemagick/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Shell</title>
-      <link>/tags/shell/</link>
-      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/shell/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>图像处理</title>
-      <link>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
-      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>mac</title>
       <link>/tags/mac/</link>
-      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/mac/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>命令行</title>
+      <link>/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>图像处理</title>
+      <link>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>文件管理</title>
+      <link>/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>node</title>
       <link>/tags/node/</link>
-      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/node/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>sqlite</title>
+      <link>/tags/sqlite/</link>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/sqlite/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>国内源</title>
       <link>/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</link>
-      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>技巧</title>
-      <link>/tags/%E6%8A%80%E5%B7%A7/</link>
-      <pubDate>Mon, 31 Dec 2018 00:00:00 +0000</pubDate>
+      <title>字符串</title>
+      <link>/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/%E6%8A%80%E5%B7%A7/</guid>
+      <guid>/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>软件安装</title>
+      <link>/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</guid>
       <description></description>
     </item>
     
