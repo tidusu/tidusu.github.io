@@ -3,127 +3,127 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>tecx.me/categories/</loc>
+    <loc>/categories/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/sqlite/</loc>
+    <loc>/tags/sqlite/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/</loc>
+    <loc>/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/sqlite_time2/</loc>
+    <loc>/post/sqlite_time2/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/sqlite_time1/</loc>
+    <loc>/post/sqlite_time1/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <loc>/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/%E6%97%B6%E9%97%B4/</loc>
+    <loc>/tags/%E6%97%B6%E9%97%B4/</loc>
     <lastmod>2019-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/imagemagick/</loc>
+    <loc>/tags/imagemagick/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/mac/</loc>
+    <loc>/tags/mac/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</loc>
+    <loc>/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
+    <loc>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/linux_cat/</loc>
+    <loc>/post/linux_cat/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/linux_wget/</loc>
+    <loc>/post/linux_wget/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</loc>
+    <loc>/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/categories/%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>/categories/%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/image_magick_1/</loc>
+    <loc>/post/image_magick_1/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/mac_skill/</loc>
+    <loc>/post/mac_skill/</loc>
     <lastmod>2019-10-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/node/</loc>
+    <loc>/tags/node/</loc>
     <lastmod>2019-10-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/node_npm/</loc>
+    <loc>/post/node_npm/</loc>
     <lastmod>2019-10-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</loc>
+    <loc>/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</loc>
     <lastmod>2019-10-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/post/sqlite_spilt/</loc>
+    <loc>/post/sqlite_spilt/</loc>
     <lastmod>2019-10-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
+    <loc>/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
     <lastmod>2019-10-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>tecx.me/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</loc>
+    <loc>/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2019-10-01T00:00:00+00:00</lastmod>
   </url>
   

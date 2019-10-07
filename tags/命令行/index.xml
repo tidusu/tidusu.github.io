@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>命令行 on TecX 编程/设计/数据/可视化</title>
-    <link>tecx.me/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</link>
+    <link>/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</link>
     <description>Recent content in 命令行 on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="tecx.me/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>如何在mac/Linux中通过命令行对文件进行合并分割</title>
-      <link>tecx.me/post/linux_cat/</link>
+      <link>/post/linux_cat/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/post/linux_cat/</guid>
+      <guid>/post/linux_cat/</guid>
       <description>&lt;p&gt;cat可以将若干小文件合并成一个完整的文件，split可以将大文件按照需求切分成若干小文件。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>如何通过命令行使用wget批量下载文件</title>
-      <link>tecx.me/post/linux_wget/</link>
+      <link>/post/linux_wget/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/post/linux_wget/</guid>
+      <guid>/post/linux_wget/</guid>
       <description>&lt;p&gt;项目中经常需要将网络链接批量下载成文件，经过使用软件和编写代码都可以达成同样的目的，但经过尝试，推荐一个在mac上最方便且稳定的方法。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>通过Shell终端命令行与ImageMagick快速对图像批量瘦身</title>
-      <link>tecx.me/post/image_magick_1/</link>
+      <link>/post/image_magick_1/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/post/image_magick_1/</guid>
+      <guid>/post/image_magick_1/</guid>
       <description>&lt;p&gt;ImageMagick实现的功能与拥有图形界面的Photoshop类似，区别在于他通过命令行工具实现功能的调用，因此完成同样的图像处理任务，ImageMagick的效率更高，速度更快。&lt;/p&gt;</description>
     </item>
     

@@ -2,111 +2,111 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on TecX 编程/设计/数据/可视化</title>
-    <link>tecx.me/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Thu, 03 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="tecx.me/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>sqlite</title>
-      <link>tecx.me/tags/sqlite/</link>
+      <link>/tags/sqlite/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/sqlite/</guid>
+      <guid>/tags/sqlite/</guid>
       <description></description>
     </item>
     
     <item>
       <title>时间</title>
-      <link>tecx.me/tags/%E6%97%B6%E9%97%B4/</link>
+      <link>/tags/%E6%97%B6%E9%97%B4/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/%E6%97%B6%E9%97%B4/</guid>
+      <guid>/tags/%E6%97%B6%E9%97%B4/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ImageMagick</title>
-      <link>tecx.me/tags/imagemagick/</link>
+      <link>/tags/imagemagick/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/imagemagick/</guid>
+      <guid>/tags/imagemagick/</guid>
       <description></description>
     </item>
     
     <item>
       <title>mac</title>
-      <link>tecx.me/tags/mac/</link>
+      <link>/tags/mac/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/mac/</guid>
+      <guid>/tags/mac/</guid>
       <description></description>
     </item>
     
     <item>
       <title>命令行</title>
-      <link>tecx.me/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</link>
+      <link>/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</guid>
+      <guid>/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C/</guid>
       <description></description>
     </item>
     
     <item>
       <title>图像处理</title>
-      <link>tecx.me/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
+      <link>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</guid>
+      <guid>/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</guid>
       <description></description>
     </item>
     
     <item>
       <title>文件管理</title>
-      <link>tecx.me/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</link>
+      <link>/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</guid>
+      <guid>/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</guid>
       <description></description>
     </item>
     
     <item>
       <title>node</title>
-      <link>tecx.me/tags/node/</link>
+      <link>/tags/node/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/node/</guid>
+      <guid>/tags/node/</guid>
       <description></description>
     </item>
     
     <item>
       <title>国内源</title>
-      <link>tecx.me/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</link>
+      <link>/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</guid>
+      <guid>/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</guid>
       <description></description>
     </item>
     
     <item>
       <title>字符串</title>
-      <link>tecx.me/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <link>/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <guid>/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>软件安装</title>
-      <link>tecx.me/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</link>
+      <link>/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</guid>
+      <guid>/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</guid>
       <description></description>
     </item>
     

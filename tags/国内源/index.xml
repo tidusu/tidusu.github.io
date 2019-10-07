@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>国内源 on TecX 编程/设计/数据/可视化</title>
-    <link>tecx.me/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</link>
+    <link>/tags/%E5%9B%BD%E5%86%85%E6%BA%90/</link>
     <description>Recent content in 国内源 on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 01 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="tecx.me/tags/%E5%9B%BD%E5%86%85%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/%E5%9B%BD%E5%86%85%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>npm安装包失败 npm国内镜像</title>
-      <link>tecx.me/post/node_npm/</link>
+      <link>/post/node_npm/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/post/node_npm/</guid>
+      <guid>/post/node_npm/</guid>
       <description>&lt;p&gt;镜像使用方法（三种办法任意一种都能解决问题，建议使用第三种，将配置写死，下次用的时候配置还在）:&lt;/p&gt;</description>
     </item>
     

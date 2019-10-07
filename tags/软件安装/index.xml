@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>软件安装 on TecX 编程/设计/数据/可视化</title>
-    <link>tecx.me/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</link>
+    <link>/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</link>
     <description>Recent content in 软件安装 on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 01 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="tecx.me/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Mac系统中安全性与隐私中没有&#34;任何来源&#34;选项</title>
-      <link>tecx.me/post/mac_skill/</link>
+      <link>/post/mac_skill/</link>
       <pubDate>Tue, 01 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>tecx.me/post/mac_skill/</guid>
+      <guid>/post/mac_skill/</guid>
       <description>&lt;p&gt;安装某软件时提示xxx.app出错，
 进入到安全性与隐私中发现没有&amp;rdquo;任何来源&amp;rdquo;选项。
 解决办法：&lt;/p&gt;</description>
