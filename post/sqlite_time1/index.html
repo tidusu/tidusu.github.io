@@ -72,8 +72,7 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>sqlite默认的时间戳10位，并不支持直接生成13位的毫秒级时间戳，使用拼接的方法可以实现。</p>
 
-<pre><code class="language-sql">SELECT strftime('%s','now') || substr(strftime('%f','now'),4);
-</code></pre>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#008000;font-weight:bold">SELECT</span> strftime(<span style="color:#ba2121">&#39;%s&#39;</span>,<span style="color:#ba2121">&#39;now&#39;</span>) <span style="color:#666">||</span> substr(strftime(<span style="color:#ba2121">&#39;%f&#39;</span>,<span style="color:#ba2121">&#39;now&#39;</span>),<span style="color:#666">4</span>);</code></pre></div>
 		</div>
 		<footer class="post__footer">
 			

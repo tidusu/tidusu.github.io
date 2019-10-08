@@ -75,28 +75,23 @@ if (!doNotTrack) {
 <h2 id="实例">实例</h2>
 
 <p>将/user/pictures目录下的所有图片文件批量缩小图片至2000x2000内，去除照片信息，图片精度80</p>
-
-<pre><code class="language-sh">for file in `find /user/pictures -iname &quot;*.jp*g&quot; ` 
-do convert -resize &quot;2000x2000&gt;&quot; +profile &quot;*&quot; -quality 80 $file $file; 
-done
-</code></pre>
-
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#008000;font-weight:bold">for</span> file in <span style="color:#ba2121">`</span>find /user/pictures -iname <span style="color:#ba2121">&#34;*.jp*g&#34;</span> <span style="color:#ba2121">`</span> 
+<span style="color:#008000;font-weight:bold">do</span> convert -resize <span style="color:#ba2121">&#34;2000x2000&gt;&#34;</span> +profile <span style="color:#ba2121">&#34;*&#34;</span> -quality <span style="color:#666">80</span> <span style="color:#19177c">$file</span> <span style="color:#19177c">$file</span>; 
+<span style="color:#008000;font-weight:bold">done</span></code></pre></div>
 <ul>
 <li><code>+profile</code> 去除或添加图片exif信息</li>
 <li><code>-quality</code> 控制图片精度，jpg默认99,png默认75</li>
 
 <li><p><code>-resize</code> 控制图片长宽像素比</p>
-
-<pre><code class="language-sh">2000x2000 高度和宽度比例保留最高值，比例不变
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">2000x2000 高度和宽度比例保留最高值，比例不变
 2000x2000^ 高度和宽度比例保留最低值，比例不变
 2000x2000! 宽度和高度强制转换，忽视比例
 2000x2000&gt; 更改长宽，当图片长或宽超过规定的尺寸，比例不变
 2000x2000&lt; 更改长宽 只有当图片长宽都超过规定的尺寸，比例不变
 2000x2000^&gt; 更改长宽，当图片长或宽超过规定的尺寸。高度和宽度比例保留最低值
 2000x2000^&lt; 更改长宽，只有当图片长宽都超过规定的尺寸。高度和宽度比例保留最低值
-2000  按指定的宽度缩放，保持比例
-x2000 按指定高度缩放，保持比例
-</code></pre></li>
+<span style="color:#666">2000</span>  按指定的宽度缩放，保持比例
+x2000 按指定高度缩放，保持比例</code></pre></div></li>
 </ul>
 
 <p>更多功能<a href="https://www.imagemagick.org">https://www.imagemagick.org</a></p>

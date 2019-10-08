@@ -86,15 +86,13 @@ d
 </code></pre>
 
 <p>解决方法</p>
-
-<pre><code class="language-sql">WITH split(single, raw) AS (
-    SELECT '', 'a,b,c,d'||','
-    UNION ALL SELECT
-    substr(raw, 0, instr(raw, ',')),
-    substr(raw, instr(raw, ',')+1)
-    FROM split WHERE raw!=''
-) SELECT single FROM split WHERE single!='';
-</code></pre>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#008000;font-weight:bold">WITH</span> split(single, raw) <span style="color:#008000;font-weight:bold">AS</span> (
+    <span style="color:#008000;font-weight:bold">SELECT</span> <span style="color:#ba2121">&#39;&#39;</span>, <span style="color:#ba2121">&#39;a,b,c,d&#39;</span><span style="color:#666">||</span><span style="color:#ba2121">&#39;,&#39;</span>
+    <span style="color:#008000;font-weight:bold">UNION</span> <span style="color:#008000;font-weight:bold">ALL</span> <span style="color:#008000;font-weight:bold">SELECT</span>
+    substr(raw, <span style="color:#666">0</span>, instr(raw, <span style="color:#ba2121">&#39;,&#39;</span>)),
+    substr(raw, instr(raw, <span style="color:#ba2121">&#39;,&#39;</span>)<span style="color:#666">+</span><span style="color:#666">1</span>)
+    <span style="color:#008000;font-weight:bold">FROM</span> split <span style="color:#008000;font-weight:bold">WHERE</span> raw<span style="color:#666">!=</span><span style="color:#ba2121">&#39;&#39;</span>
+) <span style="color:#008000;font-weight:bold">SELECT</span> single <span style="color:#008000;font-weight:bold">FROM</span> split <span style="color:#008000;font-weight:bold">WHERE</span> single<span style="color:#666">!=</span><span style="color:#ba2121">&#39;&#39;</span>;</code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
