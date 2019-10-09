@@ -6,10 +6,28 @@
     <description>Recent content in sqlite on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 03 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/sqlite/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>如何在sqlite中查询数据库的所有表或表中的所有字段</title>
+      <link>/post/sqlite_sys1/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sqlite_sys1/</guid>
+      <description>&lt;p&gt;有时候我们需要将数据库中所有表格的信息，或者某张表格中所有字段的信息转化为查询结果，可以使用如下方法查询&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何在sqlit中生成数字序列</title>
+      <link>/post/sqlite_sys2/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sqlite_sys2/</guid>
+      <description>&lt;p&gt;利用CTE中的递归写法可以方便的sqlite中生成数字序列&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>如何在sqlite中查询固定时间段的数据</title>

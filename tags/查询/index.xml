@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Postgres on TecX 编程/设计/数据/可视化</title>
-    <link>/tags/postgres/</link>
-    <description>Recent content in Postgres on TecX 编程/设计/数据/可视化</description>
+    <title>查询 on TecX 编程/设计/数据/可视化</title>
+    <link>/tags/%E6%9F%A5%E8%AF%A2/</link>
+    <description>Recent content in 查询 on TecX 编程/设计/数据/可视化</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sat, 05 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/postgres/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/%E6%9F%A5%E8%AF%A2/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -30,12 +30,21 @@
     </item>
     
     <item>
-      <title>如何使用copy命令通过命令行导入导出Postgres的数据</title>
-      <link>/post/postgres_doc1/</link>
+      <title>如何在sqlite中查询数据库的所有表或表中的所有字段</title>
+      <link>/post/sqlite_sys1/</link>
       <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/postgres_doc1/</guid>
-      <description>&lt;p&gt;使用copy命令可以方便的在命令行中导入导出数据，实现两者的相互转换，相比其他方式效率和速度都有很大的优势。&lt;/p&gt;</description>
+      <guid>/post/sqlite_sys1/</guid>
+      <description>&lt;p&gt;有时候我们需要将数据库中所有表格的信息，或者某张表格中所有字段的信息转化为查询结果，可以使用如下方法查询&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何在sqlit中生成数字序列</title>
+      <link>/post/sqlite_sys2/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sqlite_sys2/</guid>
+      <description>&lt;p&gt;利用CTE中的递归写法可以方便的sqlite中生成数字序列&lt;/p&gt;</description>
     </item>
     
   </channel>
