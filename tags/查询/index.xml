@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>如何在Postgres中批量将表名或字段名改为英文小写</title>
+      <title>在Postgres中批量将表名或字段名改为英文小写</title>
       <link>/post/postgres_sys2/</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -21,7 +21,7 @@
     </item>
     
     <item>
-      <title>如何在Postgres中查询数据库的所有表或表中的所有字段</title>
+      <title>在Postgres中查询数据库的所有表或表中的所有字段</title>
       <link>/post/postgres_sys1/</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -30,7 +30,7 @@
     </item>
     
     <item>
-      <title>如何在sqlite中查询数据库的所有表或表中的所有字段</title>
+      <title>在sqlite中查询数据库的所有表或表中的所有字段</title>
       <link>/post/sqlite_sys1/</link>
       <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -39,7 +39,7 @@
     </item>
     
     <item>
-      <title>如何在sqlit中生成数字序列</title>
+      <title>在sqlit中生成数字序列</title>
       <link>/post/sqlite_sys2/</link>
       <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
       

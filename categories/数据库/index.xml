@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>如何在Postgres中批量将表名或字段名改为英文小写</title>
+      <title>在Postgres中批量将表名或字段名改为英文小写</title>
       <link>/post/postgres_sys2/</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -21,7 +21,7 @@
     </item>
     
     <item>
-      <title>如何在Postgres中查询数据库的所有表或表中的所有字段</title>
+      <title>在Postgres中查询数据库的所有表或表中的所有字段</title>
       <link>/post/postgres_sys1/</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -30,12 +30,30 @@
     </item>
     
     <item>
-      <title>如何使用copy命令通过命令行导入导出Postgres的数据</title>
+      <title>使用copy命令通过命令行导入导出Postgres的数据</title>
       <link>/post/postgres_doc1/</link>
       <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/postgres_doc1/</guid>
       <description>&lt;p&gt;使用copy命令可以方便的在命令行中导入导出数据，实现两者的相互转换，相比其他方式效率和速度都有很大的优势。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在sqlite中查询数据库的所有表或表中的所有字段</title>
+      <link>/post/sqlite_sys1/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sqlite_sys1/</guid>
+      <description>&lt;p&gt;有时候我们需要将数据库中所有表格的信息，或者某张表格中所有字段的信息转化为查询结果，可以使用如下方法查询&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在sqlit中生成数字序列</title>
+      <link>/post/sqlite_sys2/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sqlite_sys2/</guid>
+      <description>&lt;p&gt;利用CTE中的递归写法可以方便的sqlite中生成数字序列&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -48,25 +66,7 @@
     </item>
     
     <item>
-      <title>如何在sqlite中查询数据库的所有表或表中的所有字段</title>
-      <link>/post/sqlite_sys1/</link>
-      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/sqlite_sys1/</guid>
-      <description>&lt;p&gt;有时候我们需要将数据库中所有表格的信息，或者某张表格中所有字段的信息转化为查询结果，可以使用如下方法查询&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>如何在sqlit中生成数字序列</title>
-      <link>/post/sqlite_sys2/</link>
-      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/sqlite_sys2/</guid>
-      <description>&lt;p&gt;利用CTE中的递归写法可以方便的sqlite中生成数字序列&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>如何在sqlite中查询固定时间段的数据</title>
+      <title>在sqlite中查询固定时间段的数据</title>
       <link>/post/sqlite_time2/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -75,7 +75,7 @@
     </item>
     
     <item>
-      <title>如何将sqlite时间戳精确到毫秒</title>
+      <title>将sqlite时间戳精确到毫秒</title>
       <link>/post/sqlite_time1/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       

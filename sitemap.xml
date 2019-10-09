@@ -63,17 +63,17 @@
   </url>
   
   <url>
-    <loc>/post/mongodb_path/</loc>
-    <lastmod>2019-10-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/sqlite_sys1/</loc>
     <lastmod>2019-10-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/sqlite_sys2/</loc>
+    <lastmod>2019-10-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/mongodb_path/</loc>
     <lastmod>2019-10-04T00:00:00+00:00</lastmod>
   </url>
   

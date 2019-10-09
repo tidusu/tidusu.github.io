@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>如何使用copy命令通过命令行导入导出Postgres的数据</title>
+      <title>使用copy命令通过命令行导入导出Postgres的数据</title>
       <link>/post/postgres_doc1/</link>
       <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
       
