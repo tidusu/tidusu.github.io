@@ -76,11 +76,11 @@ if (!doNotTrack) {
 <div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#008000;font-weight:bold">INSERT</span> <span style="color:#008000;font-weight:bold">OR</span> <span style="color:#008000;font-weight:bold">REPLACE</span> <span style="color:#008000;font-weight:bold">INTO</span> <span style="color:#008000;font-weight:bold">user</span> (id, name, info) 
   <span style="color:#008000;font-weight:bold">VALUES</span> (  <span style="color:#666">1</span>, 
             <span style="color:#ba2121">&#39;Bob&#39;</span>,
-            COALESCE((<span style="color:#008000;font-weight:bold">SELECT</span> <span style="color:#008000;font-weight:bold">role</span> <span style="color:#008000;font-weight:bold">FROM</span> Employee <span style="color:#008000;font-weight:bold">WHERE</span> id <span style="color:#666">=</span> <span style="color:#666">1</span>), <span style="color:#ba2121">&#39;no info&#39;</span>)
+            COALESCE((<span style="color:#008000;font-weight:bold">SELECT</span> info <span style="color:#008000;font-weight:bold">FROM</span> <span style="color:#008000;font-weight:bold">user</span> <span style="color:#008000;font-weight:bold">WHERE</span> id <span style="color:#666">=</span> <span style="color:#666">1</span>), <span style="color:#ba2121">&#39;no info&#39;</span>)
           );</code></pre></div>
 <ul>
 <li>当user表中存在<code>id</code>为1的数据时，它的<code>name</code>将被替换为<code>Bob</code>，原先的<code>info</code>保持不变;</li>
-<li>当数据中不存在<code>id</code>为1的数据时，将插入一条新的数据，同时新记录的<code>info</code>将使用默认的<code>no info</code></li>
+<li>当数据中不存在<code>id</code>为1的数据时，将插入一条新的数据，<code>COALESCE</code>的用法是返回第一个非空结果，全为空是则返回空值，因此新记录的<code>info</code>将使用默认的<code>no info</code></li>
 </ul>
 		</div>
 		<footer class="post__footer">
