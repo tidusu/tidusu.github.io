@@ -1,0 +1,1148 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>海洋孪生</title>
+    <script src="./js/dat.gui.min.js"></script>
+    <script src="./js/Assets.js"></script>
+    <script src="./js/recast.js"></script>
+    <script src="./js/ammo.js"></script>
+    <script src="./js/HavokPhysics_umd.js"></script>
+    <script src="./js/cannon.js"></script>
+    <script src="./js/Oimo.js"></script>
+    <script src="./js/earcut.min.js"></script>
+    <script src="./js/babylon.js"></script>
+    <script src="./js/babylonjs.materials.min.js"></script>
+    <script src="./js/babylonjs.proceduralTextures.min.js"></script>
+    <script src="./js/babylonjs.postProcess.min.js"></script>
+    <script src="./js/babylonjs.loaders.js"></script>
+    <script src="./js/babylonjs.serializers.min.js"></script>
+    <script src="./js/babylon.gui.min.js"></script>
+    <script src="./js/babylonjs.addons.min.js"></script>
+    <script src="./js/babylon.inspector.bundle.js"></script>
+    <script src="./js/tweakpane.min.js"></script>
+
+    
+    <style>
+        html,
+        body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+
+        #canvasZone {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* 左侧面板 */
+        #controls-left {
+            position: fixed !important;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            margin: 20px 0 0 20px;
+            width: 300px;
+            background: #2f2f2f;
+            overflow: auto;
+            max-height: calc(100vh - 40px); /* 新增，限制最大高度为视口90% */
+            scrollbar-gutter: stable both-edges; /* 现代浏览器可用，防止内容跳动 */
+        }
+        #controls-left::-webkit-scrollbar {
+    width: 4px;
+    background: transparent;
+    position: absolute;
+    z-index: 10;
+}
+#controls-left::-webkit-scrollbar-thumb {
+    background: #666666;
+    border-radius: 4px;
+    opacity: 0.7;
+}
+#controls-left::-webkit-scrollbar-track {
+    background: transparent;
+}
+#controls-left:not(:hover)::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+    </style>
+</head>
+
+<body>
+    <div id="controls-left"></div>
+    <div id="canvasZone"><canvas id="renderCanvas"></canvas></div>
+
+    <script src="./src/engine.js"></script>
+    <script src="./src/scene-main.js"></script>
+    <script src="./src/ocean.js"></script>
+    <script src="./src/gui.js"></script>
+    <script src="./src/ocean-geometry.js"></script>
+    <script src="./src/skybox.js"></script>
+    <script src="./src/buoyancy.js"></script>
+    <script src="./src/waves.js"></script>
+    <script src="./src/compute.js"></script>
+    <script src="./src/utils.js"></script>
+
+    <script src="./src/tweakpane.min.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tweakpane@3/dist/tweakpane.min.css"> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/tweakpane@3/dist/tweakpane.min.js"></script> -->
+
+    <script>
+        const numTotalPlanes = 32;
+        const planeSpacing = 0.003;
+        class RTTDebug {
+            _engine;
+            _scene;
+            _camera;
+            debugPlaneList;
+            _gui;
+            _guiBackgrounds;
+            _guiTexts;
+            _guiButtons;
+            _exrSerializer;
+            get camera() {
+                return this._camera;
+            }
+            setTexture(index, name, texture, multiplier = 1) {
+                this.debugPlaneList[index].material.emissiveTexture = texture;
+                if (multiplier !== 1) {
+                    this.debugPlaneList[index].material?.onBindObservable.add(() => {
+                        this.debugPlaneList[index].material.getEffect()?.setFloat("multiplier", multiplier);
+                    });
+                }
+                this.debugPlaneList[index].name = name;
+                this.debugPlaneList[index].material.name = "rttDebug_" + name;
+                this._guiTexts[index].text = name;
+            }
+            get isVisible() {
+                return this._gui.layer.isEnabled;
+            }
+            show(show) {
+                for (const plane of this.debugPlaneList) {
+                    plane.setEnabled(show);
+                }
+                for (const gelem of this._guiBackgrounds) {
+                    gelem.isVisible = show;
+                }
+                for (const gelem of this._guiTexts) {
+                    gelem.isVisible = show;
+                }
+                for (const gelem of this._guiButtons) {
+                    gelem.isVisible = show;
+                }
+                this._gui.layer.isEnabled = show;
+            }
+            constructor(scene, engine, numPlanes = 5) {
+                this._engine = engine;
+                this._scene = scene;
+                this.debugPlaneList = [];
+                this._guiBackgrounds = [];
+                this._guiTexts = [];
+                this._guiButtons = [];
+                this._exrSerializer = new EXRSerializer();
+                this._camera = new BABYLON.ArcRotateCamera("debug", -Math.PI / 2, Math.PI / 2, 10, new BABYLON.Vector3(0, 0, 0), this._scene);
+                this._camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+                this._camera.layerMask = 0x10000000;
+                this._gui = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("debugGUI", true, scene);
+                this._gui.layer.layerMask = 0x10000000;
+                this._makePlanes(numPlanes);
+            }
+            _makePlanes(numPlanes) {
+                const grid = new BABYLON.GUI.Grid("grid");
+                grid.addRowDefinition(1);
+                this._gui.addControl(grid);
+                const root = new BABYLON.TransformNode("rttDebug", this._scene);
+                for (let i = 0; i < numPlanes; ++i) {
+                    const plane = BABYLON.MeshBuilder.CreatePlane("plane" + i, { size: 1 }, this._scene);
+                    const uvs = plane.getVerticesData("uv");
+                    for (let i = 0; i < uvs.length; i += 2) {
+                        uvs[i + 1] = 1 - uvs[i + 1];
+                    }
+                    plane.setVerticesData("uv", uvs);
+                    plane.layerMask = 0x10000000;
+                    plane.position.x += 0.5;
+                    plane.position.y -= 0.5;
+                    plane.bakeCurrentTransformIntoVertices();
+                    plane.parent = root;
+                    this.debugPlaneList.push(plane);
+                    const mat = new BABYLON.CustomMaterial("planemat" + i, this._scene);
+                    plane.material = mat;
+                    mat.AddUniform("multiplier", "float", "1.0");
+                    mat.Fragment_Before_FragColor(`
+                color.rgba *= vec4(multiplier);
+            `);
+                    mat.disableLighting = true;
+                    grid.addColumnDefinition(1 / numTotalPlanes);
+                    const bkg = new BABYLON.GUI.Rectangle("text" + i);
+                    bkg.background = "green";
+                    bkg.color = "white";
+                    bkg.thickness = 2;
+                    bkg.width = 0.95;
+                    bkg.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+                    bkg.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+                    this._guiBackgrounds.push(bkg);
+                    const text = new BABYLON.GUI.TextBlock("title" + i, "");
+                    text.color = "white";
+                    text.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+                    text.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+                    text.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+                    text.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+                    this._guiTexts.push(text);
+                    const button = BABYLON.GUI.Button.CreateSimpleButton("button" + i, "Save");
+                    button.width = 0.7;
+                    button.color = "white";
+                    button.cornerRadius = 10;
+                    button.background = "green";
+                    button.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+                    button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+                    button.onPointerUpObservable.add(() => {
+                        const texture = this.debugPlaneList[i].material.emissiveTexture;
+                        if (texture) {
+                            const textureFormat = texture.getInternalTexture()?.format ?? BABYLON.Constants.TEXTUREFORMAT_RGBA;
+                            texture.readPixels().then((buffer) => {
+                                const channels = textureFormat === BABYLON.Constants.TEXTUREFORMAT_R ? ["R"] :
+                                    textureFormat === BABYLON.Constants.TEXTUREFORMAT_RG ? ["R", "G"] : ["R", "G", "B", "A"];
+                                this._exrSerializer.serialize(texture.getSize().width, texture.getSize().height, new Float32Array(buffer.buffer), channels);
+                                this._exrSerializer.download(this.debugPlaneList[i].name + ".exr");
+                            });
+                        }
+                    });
+                    this._guiButtons.push(button);
+                    grid.addControl(bkg, 0, i);
+                    grid.addControl(text, 0, i);
+                    grid.addControl(button, 0, i);
+                }
+                for (let i = numPlanes; i < numTotalPlanes; ++i) {
+                    grid.addColumnDefinition(1 / numTotalPlanes);
+                }
+                this._resize();
+                this._engine.onResizeObservable.add(this._resize.bind(this));
+            }
+            _resize() {
+                const screenWidth = this._engine.getRenderWidth();
+                const screenHeight = this._engine.getRenderHeight();
+                const ratio = screenWidth / screenHeight;
+                this._camera.orthoLeft = -5 * ratio;
+                this._camera.orthoRight = 5 * ratio;
+                this._camera.orthoTop = 5;
+                this._camera.orthoBottom = -5;
+                this._camera.getProjectionMatrix(true);
+                const invTransfMatrix = this._camera.getTransformationMatrix().invert();
+                const planeSize = (2 - planeSpacing * numTotalPlanes) / numTotalPlanes;
+                const y = Math.floor(screenHeight * planeSize * ratio / 2 + 5);
+                const p = new BABYLON.Vector3(-1, 1 - planeSize * ratio, 0 + 0.001);
+                const q = new BABYLON.Vector3(-1, 1 - planeSize * ratio, 0 + 0.001);
+                p.x += planeSpacing / 2;
+                q.x += planeSpacing / 2;
+                this._guiBackgrounds[0].parent.paddingTop = y + "px";
+                for (let i = 0; i < this.debugPlaneList.length; ++i) {
+                    const plane = this.debugPlaneList[i];
+                    q.x += planeSize;
+                    const ip = BABYLON.Vector3.TransformCoordinates(p, invTransfMatrix);
+                    const iq = BABYLON.Vector3.TransformCoordinates(q, invTransfMatrix);
+                    const scale = iq.x - ip.x;
+                    plane.scaling.set(scale, scale, 1);
+                    plane.position.set(ip.x, ip.y, ip.z);
+                    q.x += planeSpacing;
+                    p.x = q.x;
+                    this._guiBackgrounds[i].height = (20 * screenWidth / 1920) + "px";
+                    this._guiTexts[i].height = (20 * screenWidth / 1920) + "px";
+                    this._guiTexts[i].fontSize = (8 * screenWidth / 1920) + "px";
+                    this._guiButtons[i].top = ((20 * screenWidth / 1920) + 2) + "px";
+                    this._guiButtons[i].height = (16 * screenWidth / 1920) + "px";
+                    this._guiButtons[i].fontSize = (8 * screenWidth / 1920) + "px";
+                }
+            }
+        }
+        const f32 = BABYLON.Tools.FloatRound;
+        const PI = f32(Math.PI);
+        const sunPosition = new Vector3Float32();
+        const sunDirection = new Vector3Float32();
+        const up = new Vector3Float32();
+        const temp1 = new Vector3Float32(); // simplifiedRayleigh
+        const temp2 = new Vector3Float32(); // totalMie
+        const temp3 = new Vector3Float32(); // retColor
+        const EE = f32(1000.0);
+        const cutoffAngle = f32(PI / f32(1.95));
+        const steepness = f32(1.5);
+        const v = f32(4.0);
+        const TwoPI = f32(2.0 * PI);
+        const lambda = new Vector3Float32(f32(680E-9), f32(550E-9), f32(450E-9));
+        const K = new Vector3Float32(f32(0.686), f32(0.678), f32(0.666));
+        const rayleighZenithLength = f32(8.4E3);
+        const mieZenithLength = f32(1.25E3);
+        const unitVec = new Vector3Float32(f32(1), f32(1), f32(1));
+        const twoVec = new Vector3Float32(f32(2), f32(2), f32(2));
+        const oneAndHalfVec = new Vector3Float32(f32(1.5), f32(1.5), f32(1.5));
+        const halfOneVec = new Vector3Float32(f32(0.5), f32(0.5), f32(0.5));
+        const tenthVec = new Vector3Float32(f32(0.1), f32(0.1), f32(0.1));
+        const texColorCst = new Vector3Float32(f32(f32(0.0) * f32(0.3)), f32(f32(0.001) * f32(0.3)), f32(f32(0.0025) * f32(0.3)));
+        BABYLON.SkyMaterial.prototype.getSunColor = function () {
+            const sunIntensity = (zenithAngleCos) => {
+                return f32(EE * Math.max(0.0, f32(1.0 - f32(Math.exp((-f32(cutoffAngle - f32(Math.acos(zenithAngleCos))) / f32(steepness)))))));
+            };
+            const simplifiedRayleigh = () => {
+                const c = f32(0.0005);
+                temp1.set(f32(c / 94), f32(c / 40), f32(c / 18));
+                return temp1;
+            };
+            const totalMie = (lambda, K, T) => {
+                const c = f32(f32((f32(0.2) * T)) * f32(10E-18));
+                const p = f32(v - 2.0);
+                const m = f32(f32(f32(0.434) * c) * PI);
+                temp2.set(f32(f32(m * f32(Math.pow(f32(TwoPI / lambda.x), p))) * f32(K.x)), f32(f32(m * f32(Math.pow(f32(TwoPI / lambda.y), p))) * f32(K.y)), f32(f32(m * f32(Math.pow(f32(TwoPI / lambda.z), p))) * f32(K.z)));
+                return temp2;
+            };
+            const rayleighPhase = (cosTheta) => {
+                return f32(f32(3.0 / f32(16.0 * PI)) * f32(1.0 + f32(Math.pow(cosTheta, 2.0))));
+            };
+            const hgPhase = (cosTheta, g) => {
+                return f32(f32(1.0 / f32(4.0 * PI)) * f32((f32(1.0 - f32(Math.pow(g, 2.0))) / f32(Math.pow(1.0 - f32(f32(2.0 * g) * cosTheta) + f32(Math.pow(g, 2.0)), 1.5)))));
+            };
+            const A = f32(0.15);
+            const B = f32(0.50);
+            const C = f32(0.10);
+            const D = f32(0.20);
+            const EEE = f32(0.02);
+            const F = f32(0.30);
+            const W = new Vector3Float32(f32(1000.0), f32(1000.0), f32(1000.0));
+            const Uncharted2Tonemap = (x) => {
+                const c1 = x.scale(A).addScalar(f32(C * B));
+                const c2 = x.scale(A).addScalar(B);
+                const c3 = x.multiply(c1).addScalar(f32(D * EEE));
+                const c4 = x.multiply(c2).addScalar(f32(D * F));
+                return c3.divide(c4).addScalar(-f32(EEE / F));
+            };
+            Vector3Float32.ToFloat32(this.sunPosition, sunPosition);
+            Vector3Float32.ToFloat32(this.up, up);
+            //float sunfade = 1.0 - clamp(1.0 - exp((sunPosition.y / 450000.0)), 0.0, 1.0);
+            const sunfade = f32(1.0 - BABYLON.Scalar.Clamp(f32(1.0 - f32(Math.exp(f32(sunPosition.y / 450000.0)))), 0.0, 1.0));
+            //float rayleighCoefficient = rayleigh - (1.0 * (1.0 - sunfade));
+            const rayleighCoefficient = f32(f32(this.rayleigh) - (1.0 * f32(1.0 - sunfade)));
+            //vec3 sunDirection = normalize(sunPosition);
+            sunPosition.normalizeToRef(sunDirection);
+            //float sunE = sunIntensity(dot(sunDirection, up));
+            const sunE = sunIntensity(Vector3Float32.Dot(sunDirection, up));
+            //vec3 betaR = simplifiedRayleigh() * rayleighCoefficient;
+            const betaR = simplifiedRayleigh().scale(rayleighCoefficient);
+            //vec3 betaM = totalMie(lambda, K, turbidity) * mieCoefficient;
+            const betaM = totalMie(lambda, K, f32(this.turbidity)).scale(f32(this.mieCoefficient));
+            //float zenithAngle = acos(max(0.0, sunDirection.y));
+            const zenithAngle = f32(Math.acos(Math.max(0.0, sunDirection.y)));
+            //float sR = rayleighZenithLength / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0) / pi), -1.253));
+            const sR = f32(rayleighZenithLength / f32(f32(Math.cos(zenithAngle)) +
+                f32(f32(0.15) * f32(Math.pow(f32(f32(93.885) - f32(f32(zenithAngle * 180.0) / PI)), f32(-1.253))))));
+            //float sM = mieZenithLength / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0) / pi), -1.253));
+            const sM = f32(mieZenithLength / (f32(Math.cos(zenithAngle)) +
+                f32(f32(0.15) * f32(Math.pow(f32(f32(93.885) - f32(f32(zenithAngle * 180.0) / PI)), f32(-1.253))))));
+            //vec3 Fex = exp(-(betaR * sR + betaM * sM));
+            const Fex = betaR.scale(sR).add(betaM.scale(sM));
+            Fex.set(f32(Math.exp(-Fex.x)), f32(Math.exp(-Fex.y)), f32(Math.exp(-Fex.z)));
+            const cosTheta = 1.0;
+            //float rPhase = rayleighPhase(cosTheta*0.5+0.5);
+            const rPhase = rayleighPhase(cosTheta * 0.5 + 0.5);
+            //vec3 betaRTheta = betaR * rPhase;
+            const mPhase = hgPhase(cosTheta, f32(this.mieDirectionalG));
+            //float mPhase = hgPhase(cosTheta, mieDirectionalG);
+            const betaRTheta = betaR.scale(rPhase);
+            //vec3 betaMTheta = betaM * mPhase;
+            const betaMTheta = betaM.scale(mPhase);
+            // vec3 Lin = pow(sunE * ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0 - Fex),vec3(1.5));
+            const f1 = betaRTheta.add(betaMTheta).divide(betaR.add(betaM)).scale(sunE); // sunE * ((betaRTheta + betaMTheta) / (betaR + betaM))
+            let Lin = f1.multiply(unitVec.subtract(Fex)).pow(oneAndHalfVec);
+            //Lin *= mix(vec3(1.0), pow(sunE * ((betaRTheta + betaMTheta) / (betaR + betaM)) * Fex, vec3(1.0 / 2.0)), clamp(pow(1.0-dot(up, sunDirection), 5.0), 0.0, 1.0));
+            const l1 = f1.multiply(Fex).pow(halfOneVec);
+            const l2 = BABYLON.Scalar.Clamp(f32(Math.pow(f32(1.0 - Vector3Float32.Dot(up, sunDirection)), 5.0)), 0, 1); // clamp(pow(1.0-dot(up, sunDirection), 5.0), 0.0, 1.0)
+            Lin = Lin.multiply(Vector3Float32.Lerp(unitVec, l1, l2));
+            //vec3 L0 = vec3(0.1) * Fex;
+            const L0 = tenthVec.multiply(Fex);
+            //L0 += (sunE * 19000.0 * Fex) * sundisk;
+            const sundisk = 1.;
+            L0.addInPlace(Fex.scale(f32(sunE * 19000.0)));
+            //vec3 whiteScale = 1.0/Uncharted2Tonemap(vec3(W));
+            const whiteScale = unitVec.divide(Uncharted2Tonemap(W));
+            //vec3 texColor = (Lin+L0);
+            //texColor *= 0.04;
+            //texColor += vec3(0.0,0.001,0.0025)*0.3;
+            const texColor = Lin.add(L0).scale(f32(0.04)).add(texColorCst);
+            //vec3 curr = Uncharted2Tonemap((log2(2.0/pow(luminance, 4.0)))*texColor);
+            const curr = Uncharted2Tonemap(texColor.scale(f32(Math.log2(f32(2.0 / f32(Math.pow(this.luminance, 4.0)))))));
+            //vec3 retColor = curr*whiteScale;
+            Vector3Float32.ClampToRef(curr.multiply(whiteScale), halfOneVec, unitVec, temp3);
+            const retColor = new BABYLON.Color3(temp3.x, temp3.y, temp3.z);
+            return retColor;
+        };
+        const initialSpectrumCS = `
+const PI : f32 = 3.1415926;
+
+@group(0) @binding(1) var WavesData : texture_storage_2d<rgba32float, write>;
+@group(0) @binding(2) var H0K : texture_storage_2d<rg32float, write>;
+@group(0) @binding(4) var Noise : texture_2d<f32>;
+
+struct Params {
+    Size : u32,
+    LengthScale : f32,
+    CutoffHigh : f32,
+    CutoffLow : f32,
+    GravityAcceleration : f32,
+    Depth : f32,
+};
+
+@group(0) @binding(5) var<uniform> params : Params;
+
+struct SpectrumParameter {
+	scale : f32,
+	angle : f32,
+	spreadBlend : f32,
+	swell : f32,
+	alpha : f32,
+	peakOmega : f32,
+	gamma : f32,
+	shortWavesFade : f32,
+};
+
+struct SpectrumParameters {
+    elements : array<SpectrumParameter>,
+};
+
+@group(0) @binding(6) var<storage, read> spectrums : SpectrumParameters;
+
+fn frequency(k: f32, g: f32, depth: f32) -> f32
+{
+	return sqrt(g * k * tanh(min(k * depth, 20.0)));
+}
+
+fn frequencyDerivative(k: f32, g: f32, depth: f32) -> f32
+{
+	let th = tanh(min(k * depth, 20.0));
+	let ch = cosh(k * depth);
+	return g * (depth * k / ch / ch + th) / frequency(k, g, depth) / 2.0;
+}
+
+fn normalisationFactor(s: f32) -> f32
+{
+	let s2 = s * s;
+	let s3 = s2 * s;
+	let s4 = s3 * s;
+	if (s < 5.0) {
+		return -0.000564 * s4 + 0.00776 * s3 - 0.044 * s2 + 0.192 * s + 0.163;
+    }
+	return -4.80e-08 * s4 + 1.07e-05 * s3 - 9.53e-04 * s2 + 5.90e-02 * s + 3.93e-01;
+}
+
+fn cosine2s(theta: f32, s: f32) -> f32
+{
+	return normalisationFactor(s) * pow(abs(cos(0.5 * theta)), 2.0 * s);
+}
+
+fn spreadPower(omega: f32, peakOmega: f32) -> f32
+{
+	if (omega > peakOmega) {
+		return 9.77 * pow(abs(omega / peakOmega), -2.5);
+	}
+	return 6.97 * pow(abs(omega / peakOmega), 5.0);
+}
+
+fn directionSpectrum(theta: f32, omega: f32, pars: SpectrumParameter) -> f32
+{
+	let s = spreadPower(omega, pars.peakOmega) + 16.0 * tanh(min(omega / pars.peakOmega, 20.0)) * pars.swell * pars.swell;
+	return mix(2.0 / PI * cos(theta) * cos(theta), cosine2s(theta - pars.angle, s), pars.spreadBlend);
+}
+
+fn TMACorrection(omega: f32, g: f32, depth: f32) -> f32
+{
+	let omegaH = omega * sqrt(depth / g);
+	if (omegaH <= 1.0) {
+		return 0.5 * omegaH * omegaH;
+    }
+	if (omegaH < 2.0) {
+		return 1.0 - 0.5 * (2.0 - omegaH) * (2.0 - omegaH);
+    }
+	return 1.0;
+}
+
+fn JONSWAP(omega: f32, g: f32, depth: f32, pars: SpectrumParameter) -> f32
+{
+	var sigma: f32;
+	if (omega <= pars.peakOmega) {
+		sigma = 0.07;
+    } else {
+		sigma = 0.09;
+    }
+	let r = exp(-(omega - pars.peakOmega) * (omega - pars.peakOmega) / 2.0 / sigma / sigma / pars.peakOmega / pars.peakOmega);
+	
+	let oneOverOmega = 1.0 / omega;
+	let peakOmegaOverOmega = pars.peakOmega / omega;
+
+	return pars.scale * TMACorrection(omega, g, depth) * pars.alpha * g * g
+		* oneOverOmega * oneOverOmega * oneOverOmega * oneOverOmega * oneOverOmega
+		* exp(-1.25 * peakOmegaOverOmega * peakOmegaOverOmega * peakOmegaOverOmega * peakOmegaOverOmega)
+		* pow(abs(pars.gamma), r);
+}
+
+fn shortWavesFade(kLength: f32, pars: SpectrumParameter) -> f32
+{
+	return exp(-pars.shortWavesFade * pars.shortWavesFade * kLength * kLength);
+}
+
+@compute @workgroup_size(8,8,1)
+fn calculateInitialSpectrum(@builtin(global_invocation_id) id : vec3<u32>)
+{
+	let deltaK = 2.0 * PI / params.LengthScale;
+	let nx = f32(id.x) - f32(params.Size) / 2.0;
+	let nz = f32(id.y) - f32(params.Size) / 2.0;
+	let k = vec2<f32>(nx, nz) * deltaK;
+	let kLength = length(k);
+
+	if (kLength <= params.CutoffHigh && kLength >= params.CutoffLow) {
+		let omega = frequency(kLength, params.GravityAcceleration, params.Depth);
+		textureStore(WavesData, vec2<i32>(id.xy), vec4<f32>(k.x, 1.0 / kLength, k.y, omega));
+
+		let kAngle = atan2(k.y, k.x);
+		let dOmegadk = frequencyDerivative(kLength, params.GravityAcceleration, params.Depth);
+		var spectrum = JONSWAP(omega, params.GravityAcceleration, params.Depth, spectrums.elements[0]) * directionSpectrum(kAngle, omega, spectrums.elements[0]) * shortWavesFade(kLength, spectrums.elements[0]);
+		if (spectrums.elements[1].scale > 0.0) {
+			spectrum = spectrum + JONSWAP(omega, params.GravityAcceleration, params.Depth, spectrums.elements[1]) * directionSpectrum(kAngle, omega, spectrums.elements[1]) * shortWavesFade(kLength, spectrums.elements[1]);
+        }
+        let noise = textureLoad(Noise, vec2<i32>(id.xy), 0).xy;
+        textureStore(H0K, vec2<i32>(id.xy), vec4<f32>(noise * sqrt(2.0 * spectrum * abs(dOmegadk) / kLength * deltaK * deltaK), 0., 0.));
+	} else {
+		textureStore(H0K, vec2<i32>(id.xy), vec4<f32>(0.0));
+		textureStore(WavesData, vec2<i32>(id.xy), vec4<f32>(k.x, 1.0, k.y, 0.0));
+	}    
+}
+`;
+        const initialSpectrum2CS = `
+@group(0) @binding(0) var H0 : texture_storage_2d<rgba32float, write>;
+
+struct Params {
+    Size : u32,
+    LengthScale : f32,
+    CutoffHigh : f32,
+    CutoffLow : f32,
+    GravityAcceleration : f32,
+    Depth : f32,
+};
+
+@group(0) @binding(5) var<uniform> params : Params;
+
+@group(0) @binding(8) var H0K : texture_2d<f32>;
+
+@compute @workgroup_size(8,8,1)
+fn calculateConjugatedSpectrum(@builtin(global_invocation_id) id : vec3<u32>)
+{
+    let h0K = textureLoad(H0K, vec2<i32>(id.xy), 0).xy;
+	let h0MinusK = textureLoad(H0K, vec2<i32>(i32(params.Size - id.x) % i32(params.Size), i32(params.Size - id.y) % i32(params.Size)), 0);
+
+    textureStore(H0, vec2<i32>(id.xy), vec4<f32>(h0K.x, h0K.y, h0MinusK.x, -h0MinusK.y));
+}
+`;
+        const fftPrecomputeCS = `
+const PI: f32 = 3.1415926;
+
+@group(0) @binding(0) var PrecomputeBuffer : texture_storage_2d<rgba32float, write>;
+
+struct Params {
+    Step : i32,
+    Size : i32,
+};
+
+@group(0) @binding(1) var<uniform> params : Params;
+
+fn complexMult(a: vec2<f32>, b: vec2<f32>) -> vec2<f32>
+{
+	return vec2<f32>(a.r * b.r - a.g * b.g, a.r * b.g + a.g * b.r);
+}
+
+fn complexExp(a: vec2<f32>) -> vec2<f32>
+{
+	return vec2<f32>(cos(a.y), sin(a.y)) * exp(a.x);
+}
+
+@compute @workgroup_size(1,8,1)
+fn precomputeTwiddleFactorsAndInputIndices(@builtin(global_invocation_id) id : vec3<u32>)
+{
+    let iid = vec3<i32>(id);
+	let b = params.Size >> (id.x + 1u);
+	let mult = 2.0 * PI * vec2<f32>(0.0, -1.0) / f32(params.Size);
+	let i = (2 * b * (iid.y / b) + (iid.y % b)) % params.Size;
+	let twiddle = complexExp(mult * vec2<f32>(f32((iid.y / b) * b)));
+	
+    textureStore(PrecomputeBuffer, iid.xy, vec4<f32>(twiddle.x, twiddle.y, f32(i), f32(i + b)));
+	textureStore(PrecomputeBuffer, vec2<i32>(iid.x, iid.y + params.Size / 2), vec4<f32>(-twiddle.x, -twiddle.y, f32(i), f32(i + b)));
+}
+`;
+        const fftInverseFFTCS = `
+struct Params {
+    Step : i32,
+    Size : i32,
+};
+
+@group(0) @binding(1) var<uniform> params : Params;
+
+@group(0) @binding(3) var PrecomputedData : texture_2d<f32>;
+
+@group(0) @binding(5) var InputBuffer : texture_2d<f32>;
+@group(0) @binding(6) var OutputBuffer : texture_storage_2d<rg32float, write>;
+
+fn complexMult(a: vec2<f32>, b: vec2<f32>) -> vec2<f32>
+{
+	return vec2<f32>(a.r * b.r - a.g * b.g, a.r * b.g + a.g * b.r);
+}
+
+@compute @workgroup_size(8,8,1)
+fn horizontalStepInverseFFT(@builtin(global_invocation_id) id : vec3<u32>)
+{
+    let iid = vec3<i32>(id);
+    let data = textureLoad(PrecomputedData, vec2<i32>(params.Step, iid.x), 0);
+	let inputsIndices = vec2<i32>(data.ba);
+
+    let input0 = textureLoad(InputBuffer, vec2<i32>(inputsIndices.x, iid.y), 0);
+    let input1 = textureLoad(InputBuffer, vec2<i32>(inputsIndices.y, iid.y), 0);
+
+    textureStore(OutputBuffer, iid.xy, vec4<f32>(
+        input0.xy + complexMult(vec2<f32>(data.r, -data.g), input1.xy), 0., 0.
+    ));
+}
+`;
+        const fftInverseFFT2CS = `
+struct Params {
+    Step : i32,
+    Size : i32,
+};
+
+@group(0) @binding(1) var<uniform> params : Params;
+
+@group(0) @binding(3) var PrecomputedData : texture_2d<f32>;
+
+@group(0) @binding(5) var InputBuffer : texture_2d<f32>;
+@group(0) @binding(6) var OutputBuffer : texture_storage_2d<rg32float, write>;
+
+fn complexMult(a: vec2<f32>, b: vec2<f32>) -> vec2<f32>
+{
+	return vec2<f32>(a.r * b.r - a.g * b.g, a.r * b.g + a.g * b.r);
+}
+
+@compute @workgroup_size(8,8,1)
+fn verticalStepInverseFFT(@builtin(global_invocation_id) id : vec3<u32>)
+{
+    let iid = vec3<i32>(id);
+    let data = textureLoad(PrecomputedData, vec2<i32>(params.Step, iid.y), 0);
+	let inputsIndices = vec2<i32>(data.ba);
+
+    let input0 = textureLoad(InputBuffer, vec2<i32>(iid.x, inputsIndices.x), 0);
+    let input1 = textureLoad(InputBuffer, vec2<i32>(iid.x, inputsIndices.y), 0);
+
+    textureStore(OutputBuffer, iid.xy, vec4<f32>(
+        input0.xy + complexMult(vec2<f32>(data.r, -data.g), input1.xy), 0., 0.
+    ));
+}
+`;
+        const fftInverseFFT3CS = `
+@group(0) @binding(5) var InputBuffer : texture_2d<f32>;
+@group(0) @binding(6) var OutputBuffer : texture_storage_2d<rg32float, write>;
+
+@compute @workgroup_size(8,8,1)
+fn permute(@builtin(global_invocation_id) id : vec3<u32>)
+{
+    let iid = vec3<i32>(id);
+    let input = textureLoad(InputBuffer, iid.xy, 0);
+
+    textureStore(OutputBuffer, iid.xy, input * (1.0 - 2.0 * f32((iid.x + iid.y) % 2)));
+}
+`;
+        const timeDependentSpectrumCS = `
+@group(0) @binding(1) var H0 : texture_2d<f32>;
+@group(0) @binding(3) var WavesData : texture_2d<f32>;
+
+struct Params {
+    Time : f32,
+};
+
+@group(0) @binding(4) var<uniform> params : Params;
+
+@group(0) @binding(5) var DxDz : texture_storage_2d<rg32float, write>;
+@group(0) @binding(6) var DyDxz : texture_storage_2d<rg32float, write>;
+@group(0) @binding(7) var DyxDyz : texture_storage_2d<rg32float, write>;
+@group(0) @binding(8) var DxxDzz : texture_storage_2d<rg32float, write>;
+
+fn complexMult(a: vec2<f32>, b: vec2<f32>) -> vec2<f32>
+{
+	return vec2<f32>(a.r * b.r - a.g * b.g, a.r * b.g + a.g * b.r);
+}
+
+@compute @workgroup_size(8,8,1)
+fn calculateAmplitudes(@builtin(global_invocation_id) id : vec3<u32>)
+{
+    let iid = vec3<i32>(id);
+	let wave = textureLoad(WavesData, iid.xy, 0);
+	let phase = wave.w * params.Time;
+	let exponent = vec2<f32>(cos(phase), sin(phase));
+    let h0 = textureLoad(H0, iid.xy, 0);
+	let h = complexMult(h0.xy, exponent) + complexMult(h0.zw, vec2<f32>(exponent.x, -exponent.y));
+	let ih = vec2<f32>(-h.y, h.x);
+
+	let displacementX = ih * wave.x * wave.y;
+	let displacementY = h;
+	let displacementZ = ih * wave.z * wave.y;
+
+	let displacementX_dx = -h * wave.x * wave.x * wave.y;
+	let displacementY_dx = ih * wave.x;
+	let displacementZ_dx = -h * wave.x * wave.z * wave.y;
+		 
+	let displacementY_dz = ih * wave.z;
+	let displacementZ_dz = -h * wave.z * wave.z * wave.y;
+
+	textureStore(DxDz,   iid.xy, vec4<f32>(displacementX.x - displacementZ.y, displacementX.y + displacementZ.x, 0., 0.));
+	textureStore(DyDxz,  iid.xy, vec4<f32>(displacementY.x - displacementZ_dx.y, displacementY.y + displacementZ_dx.x, 0., 0.));
+	textureStore(DyxDyz, iid.xy, vec4<f32>(displacementY_dx.x - displacementY_dz.y, displacementY_dx.y + displacementY_dz.x, 0., 0.));
+	textureStore(DxxDzz, iid.xy, vec4<f32>(displacementX_dx.x - displacementZ_dz.y, displacementX_dx.y + displacementZ_dz.x, 0., 0.));
+}
+`;
+        const wavesTexturesMergerCS = `
+struct Params {
+    Lambda : f32,
+    DeltaTime : f32,
+};
+
+@group(0) @binding(0) var<uniform> params : Params;
+
+@group(0) @binding(1) var Displacement : texture_storage_2d<rgba16float, write>;
+@group(0) @binding(2) var Derivatives : texture_storage_2d<rgba16float, write>;
+@group(0) @binding(3) var TurbulenceRead : texture_2d<f32>;
+@group(0) @binding(4) var TurbulenceWrite : texture_storage_2d<rgba16float, write>;
+
+@group(0) @binding(5) var Dx_Dz : texture_2d<f32>;
+@group(0) @binding(6) var Dy_Dxz : texture_2d<f32>;
+@group(0) @binding(7) var Dyx_Dyz : texture_2d<f32>;
+@group(0) @binding(8) var Dxx_Dzz : texture_2d<f32>;
+
+@compute @workgroup_size(8,8,1)
+fn fillResultTextures(@builtin(global_invocation_id) id : vec3<u32>)
+{
+    let iid = vec3<i32>(id);
+
+	let DxDz = textureLoad(Dx_Dz, iid.xy, 0);
+	let DyDxz = textureLoad(Dy_Dxz, iid.xy, 0);
+	let DyxDyz = textureLoad(Dyx_Dyz, iid.xy, 0);
+	let DxxDzz = textureLoad(Dxx_Dzz, iid.xy, 0);
+	
+	textureStore(Displacement, iid.xy, vec4<f32>(params.Lambda * DxDz.x, DyDxz.x, params.Lambda * DxDz.y, 0.));
+	textureStore(Derivatives, iid.xy, vec4<f32>(DyxDyz.x, DyxDyz.y, DxxDzz.x * params.Lambda, DxxDzz.y * params.Lambda));
+
+	let jacobian = (1.0 + params.Lambda * DxxDzz.x) * (1.0 + params.Lambda * DxxDzz.y) - params.Lambda * params.Lambda * DyDxz.y * DyDxz.y;
+
+    var turbulence = textureLoad(TurbulenceRead, iid.xy, 0).r + params.DeltaTime * 0.5 / max(jacobian, 0.5);
+    turbulence = min(jacobian, turbulence);
+
+    textureStore(TurbulenceWrite, iid.xy, vec4<f32>(turbulence, turbulence, turbulence, 1.));
+}
+`;
+        class UnderseaFogPluginMaterial extends BABYLON.MaterialPluginBase {
+            constructor(material) {
+                super(material, "UnderseaFog", 200, { "UnderseaFog": false }, true);
+                this._isEnabled = false;
+            }
+            // Default colors can be overridden by the scene.
+            oceanColor = new BABYLON.Color3(0.011, 0.056, 0.099); // e.g., from your OceanMaterial _Color
+            skyColor = new BABYLON.Color3(0.53, 0.81, 0.92); // e.g., a typical sky blue
+            // Add a property for sun direction if you like, or set it externally
+            sunDirection = new BABYLON.Vector3(0, -1, 0);
+            static fogCenter = new BABYLON.Vector3(1, 1, 0);
+            /** Enable the plugin or not */
+            get isEnabled() { return this._isEnabled; }
+            set isEnabled(enabled) {
+                if (this._isEnabled === enabled) {
+                    return;
+                }
+                this._isEnabled = enabled;
+                this.markAllDefinesAsDirty();
+                this._enable(this._isEnabled);
+            }
+            _isEnabled;
+            // Let the system know which define we use
+            prepareDefines(defines, scene, mesh) {
+                defines["UnderseaFog"] = this._isEnabled;
+            }
+            // We add one new sampler or uniform for the sun direction.
+            // We'll also keep the wave generator references if needed.
+            getUniforms() {
+                return {
+                    "ubo": [
+                        { name: "fogCenter", size: 3, type: "vec3" },
+                        { name: "us_worldSpaceCameraPos", size: 3, type: "vec3" },
+                        { name: "us_sunDir", size: 3, type: "vec3" },
+                        { name: "us_LOD_scale", size: 1, type: "float" },
+                        { name: "us_LengthScale0", size: 1, type: "float" },
+                        { name: "us_LengthScale1", size: 1, type: "float" },
+                        { name: "us_LengthScale2", size: 1, type: "float" },
+                        { name: "us_skyColor", size: 3, type: "vec3" },
+                        { name: "us_oceanColor", size: 3, type: "vec3" }, // external ocean base color
+                    ],
+                };
+            }
+            _wavesGenerator;
+            setWavesGenerator(wg) {
+                this._wavesGenerator = wg;
+            }
+            bindForSubMesh(uniformBuffer, scene, engine, subMesh) {
+                if (!this._isEnabled) {
+                    return;
+                }
+                // Example usage: you can pick any center for fog
+                uniformBuffer.updateVector3("fogCenter", UnderseaFogPluginMaterial.fogCenter);
+                // Store the sun direction
+                // debugger
+                uniformBuffer.updateVector3("us_sunDir", scene.lights[0].direction);
+                // If you want to pass wave data:
+                uniformBuffer.updateFloat("us_LOD_scale", 7.13);
+                uniformBuffer.updateFloat("us_LengthScale0", this._wavesGenerator.lengthScale[0]);
+                uniformBuffer.updateFloat("us_LengthScale1", this._wavesGenerator.lengthScale[1]);
+                uniformBuffer.updateFloat("us_LengthScale2", this._wavesGenerator.lengthScale[2]);
+                // Hook up the turbulence textures
+                uniformBuffer.setTexture("_Turbulence_c0", this._wavesGenerator.getCascade(0).turbulence);
+                uniformBuffer.setTexture("_Turbulence_c1", this._wavesGenerator.getCascade(1).turbulence);
+                uniformBuffer.setTexture("_Turbulence_c2", this._wavesGenerator.getCascade(2).turbulence);
+                uniformBuffer.updateFloat3("us_oceanColor", ...this.oceanColor.asArray());
+                uniformBuffer.updateFloat3("us_skyColor", ...this.skyColor.asArray());
+            }
+            // Indicate that we are okay with both GLSL and WGSL
+            isCompatible(shaderLanguage) {
+                return (shaderLanguage === BABYLON.ShaderLanguage.GLSL ||
+                    shaderLanguage === BABYLON.ShaderLanguage.WGSL);
+            }
+            // The main custom code changes happen in the fragment "main end",
+            // where we sample the turbulence using the intersection with y=0
+            getCustomCode(shaderType, shaderLanguage) {
+                if (shaderType === "vertex" && shaderLanguage === BABYLON.ShaderLanguage.WGSL) {
+                    return {
+                        CUSTOM_VERTEX_DEFINITIONS: `
+                    varying vFogDistance: vec3f;
+                `,
+                        // We won't need vUVCoords_c0 etc anymore if you are purely doing the intersection approach.
+                        CUSTOM_VERTEX_MAIN_END: `
+                    vertexOutputs.vFogDistance = (scene.view * worldPos).xyz;
+                `,
+                    };
+                }
+                if (shaderType === "fragment" && shaderLanguage === BABYLON.ShaderLanguage.WGSL) {
+                    return {
+                        // We'll declare the new uniform sunDir here, plus the turbulence textures:
+                        CUSTOM_FRAGMENT_DEFINITIONS: `
+           
+                // IbukiHash in WGSL, converted from Andante’s public domain (CC0) GLSL code.
+// (Original source: https://twitter.com/andanteyk)
+
+/// Returns a pseudo‐random value in [0, 1) based on an input vector of four unsigned integers.
+/// The caller is expected to supply “integer” values (even if originally stored as f32).
+fn ibuki(v: vec4<u32>) -> f32 {
+  // Constant multipliers (hexadecimal notation).
+  let mult: vec4<u32> = vec4<u32>(
+    0xae3cc725u,
+    0x9fe72885u,
+    0xae36bfb5u,
+    0x82c1fcadu
+  );
+
+  // Work on a copy of the input.
+  var u: vec4<u32> = v;
+  u = u * mult;
+  // The swizzle (w, x, y, z) is created explicitly.
+  u = u ^ (vec4<u32>(u.w, u.x, u.y, u.z) ^ (u >> vec4<u32>(13u)));
+
+  u = u * mult;
+
+  // Combine all components.
+  var r: u32 = u.x + u.y + u.z + u.w;
+  r = r ^ (r >> 11u);
+  r = (r * r) ^ r;
+
+  // Multiply by 2^-32 to convert the 32-bit unsigned int to a float in [0, 1).
+  return f32(r) * 2.3283064365386962890625e-10;
+}
+
+                // Base fog color (blue–green tint typical of seawater)
+const FOG_COLOR: vec4<f32> = vec4<f32>(0.0, 0.4, 0.45, 1.0);
+const FOG_CLIP = 180.0;
+
+  fn apply_distance_fog(original_color: vec4<f32>, distance: f32) -> vec4<f32> {
+                // Calculate fog intensity
+                let fog_intensity = clamp(distance / FOG_CLIP, 0.0, 1.0);
+
+                // Mix original color with fog color based on intensity
+                return mix(original_color, FOG_COLOR, fog_intensity);
+            }
+// Function to apply both fog and underwater light absorption based on distance and depth
+fn apply_fog(original_color: vec4<f32>, distance: f32, depth: f32) -> vec4<f32> {
+    // Calculate fog intensity based on distance (0.0 = no fog, 1.0 = full fog)
+    let fog_intensity = clamp(distance / FOG_CLIP, 0.0, 1.0);
+
+    // Underwater absorption coefficients for red, green, and blue.
+    // Red light is absorbed fastest, then green, and blue is least absorbed.
+    // (These values are approximate and can be adjusted as needed.)
+    let absorption: vec3<f32> = vec3<f32>(0.5, 0.2, 0.1);
+
+    // Compute the attenuation per channel using exponential decay:
+    // color_attenuation = exp(-absorption_coefficient * depth)
+    let attenuation: vec3<f32> = exp(-absorption * depth);
+
+    // Apply the underwater attenuation to the original color's RGB components.
+    let underwater_color: vec3<f32> = original_color.rgb * attenuation;
+
+    // Combine the underwater color with the fog color.
+    // When fog_intensity is 0.0, the color is fully determined by underwater absorption.
+    // When fog_intensity is 1.0, the fog color completely replaces the attenuated color.
+    let final_rgb: vec3<f32> = underwater_color * (1.0 - fog_intensity) + FOG_COLOR.rgb * fog_intensity;
+
+    return vec4<f32>(final_rgb, original_color.a);
+}
+
+
+                #define DISABLE_UNIFORMITY_ANALYSIS
+                    uniform us_sunDir: vec3f;
+
+                    var _Turbulence_c0Sampler: sampler;
+                    var _Turbulence_c0: texture_2d<f32>;
+                    var _Turbulence_c1Sampler: sampler;
+                    var _Turbulence_c1: texture_2d<f32>;
+                    var _Turbulence_c2Sampler: sampler;
+                    var _Turbulence_c2: texture_2d<f32>;
+
+fn blend_screen(base: vec4<f32>, blend: vec4<f32>) -> vec4<f32> {
+    return 1.0 - (1.0 - base) * (1.0 - blend);
+}
+                    fn blend_overlay(base: vec4<f32>, blend: vec4<f32>) -> vec4<f32> {
+                        let condition = base.rgb < vec3<f32>(0.5);
+                        let result_rgb = select(
+                            1.0 - 2.0 * (1.0 - base.rgb) * (1.0 - blend.rgb),
+                            2.0 * base.rgb * blend.rgb,
+                            condition
+                        );
+                        return vec4<f32>(result_rgb, blend.a);
+                    }
+                `,
+                        CUSTOM_FRAGMENT_MAIN_END: `
+               // If underwater
+if (fragmentInputs.vPositionW.y < 0.0) {
+    // Compute the underwater (refracted) direction of the sun using Snell's law.
+    let sunDir = normalize(uniforms.us_sunDir);
+    let N = vec3<f32>(0.0, 1.0, 0.0);
+    // eta = n_air/n_water ≈ 1/1.33
+    let waterDir = refract(sunDir, N, 1.0 / 1.33);
+
+    // Proceed if the refracted ray is valid (avoid division by zero)
+    if (abs(waterDir.y) > 1e-6) {
+        let wPos = fragmentInputs.vPositionW;
+        // Find the intersection of the refracted ray with the flat water surface (y = 0)
+        let t = -wPos.y / waterDir.y;
+        let iX = wPos.x + t * waterDir.x;
+        let iZ = wPos.z + t * waterDir.z;
+
+        // --- Apply Depth-Dependent Scattering ---
+        // Compute depth (a positive value underwater)
+        let depth = -wPos.y;
+        // The scatteringFactor (in m^-1) is chosen from physically plausible water scattering values.
+        let scatteringFactor: f32 = 0.1;
+
+        // Generate two random numbers using a seeded function (ibuki)
+        var seed1 = vec4<u32>(
+            u32((wPos.x + 100.0) * 1000.0),
+            u32((wPos.y + 100.0) * 1000.0),
+            u32((wPos.z + 100.0) * 1000.0),
+            0u
+        );
+        var seed2 = vec4<u32>(
+            u32((wPos.x + 100.0) * 1000.0),
+            u32((wPos.y + 100.0) * 1000.0),
+            u32((wPos.z + 100.0) * 1000.0),
+            1u
+        );
+        let rand1 = ibuki(seed1); // random in [0,1)
+        let rand2 = ibuki(seed2); // independent random in [0,1)
+        // Choose a random angle (full circle)
+        let theta = rand1 * 6.283185307;
+        // The offset magnitude scales with depth and an extra random factor
+        let offsetMagnitude = depth * scatteringFactor * rand2;
+        let scatterOffset = vec2<f32>(cos(theta), sin(theta)) * offsetMagnitude;
+
+        // Apply the random scattering offset to the computed surface intersection.
+        let iX_scattered = iX + scatterOffset.x;
+        let iZ_scattered = iZ + scatterOffset.y;
+
+        // --- Sample the Caustic (Turbulence) Textures ---
+        // Compute UVs for each cascade using the scattered intersection.
+        let uvC0 = vec2<f32>(iX_scattered, iZ_scattered) / uniforms.us_LengthScale0;
+        let uvC1 = vec2<f32>(iX_scattered, iZ_scattered) / uniforms.us_LengthScale1;
+        let uvC2 = vec2<f32>(iX_scattered, iZ_scattered) / uniforms.us_LengthScale2;
+
+        // Sample each texture.
+        let caustic0 = textureSample(_Turbulence_c0, _Turbulence_c0Sampler, uvC0);
+        let caustic1 = textureSample(_Turbulence_c1, _Turbulence_c1Sampler, uvC1);
+        let caustic2 = textureSample(_Turbulence_c2, _Turbulence_c2Sampler, uvC2);
+
+        // Instead of per-cascade falloff, average them equally.
+        let causticCombined = (caustic0 + caustic1 + caustic2) / 3.0;
+
+        // --- Blend Caustics and Apply Fog ---
+        // Compute a view-space distance (for fog blending).
+        var d = length(uniforms.fogCenter - fragmentInputs.vFogDistance);
+        // Blend the caustic effect with the original fragment color.
+        let overlayed = blend_overlay(fragmentOutputs.color, causticCombined);
+       
+                                               // --- Volumetric Light Ray Accumulation with Wavelength-Dependent Attenuation ---
+
+    // Tunable parameters.
+    let stepLength: f32 = .5;   // Distance (in world units) between successive samples.
+    let maxSteps: i32 = 20;      // Maximum number of steps along the view ray.
+    
+    // Get the extinction coefficients per wavelength (from the uniform).
+    // us_extinction is a vec3 (e.g., (0.25, 0.10, 0.05))
+    let extinction = vec3f(0.25, 0.10, 0.05);
+    
+    // Get world-space camera and fragment positions.
+    let camPos: vec3<f32> = uniforms.us_worldSpaceCameraPos;
+    let fragPos: vec3<f32> = fragmentInputs.vPositionW;
+    
+    // Compute the normalized view ray (from camera to fragment) and the total distance.
+    let viewRayDir: vec3<f32> = normalize(fragPos - camPos);
+    let totalDistance: f32 = distance(camPos, fragPos);
+    
+    // Initialize volumetric contribution.
+    var volumetricContribution: vec4<f32> = vec4f(0.0);
+    var currentSamplePos: vec3<f32> = camPos;
+    var accumulatedDistance: f32 = 0.0;
+    var totalSteps = 0u;
+    // Step along the view ray from the camera to the fragment.
+    for (var i: i32 = 0; i < maxSteps && accumulatedDistance < totalDistance; i = i + 1) {
+        
+        currentSamplePos = currentSamplePos + viewRayDir * stepLength;
+        accumulatedDistance = accumulatedDistance + stepLength;
+        if (accumulatedDistance > totalDistance) { break; }
+        
+        // Process only if the sample point is underwater.
+        if (currentSamplePos.y < 0.0) {
+            // For this sample point, compute the refracted (Snell-bent) sun ray.
+            let sunDir_sample: vec3<f32> = normalize(uniforms.us_sunDir);
+            let N_sample: vec3<f32> = vec3f(0.0, 1.0, 0.0);  // Flat water surface normal.
+            let waterDir_sample: vec3<f32> = refract(sunDir_sample, N_sample, 1.0 / 1.33);
+            
+            if (abs(waterDir_sample.y) > 1e-6) {
+                // Compute the distance along the refracted ray from the sample to the water surface (y = 0).
+                let t_sample: f32 = -currentSamplePos.y / waterDir_sample.y;
+                // Compute the UV coordinate: the water surface point reached by the refracted ray.
+                let sampleUV: vec2<f32> = vec2f(
+                    currentSamplePos.x + t_sample * waterDir_sample.x,
+                    currentSamplePos.z + t_sample * waterDir_sample.z
+                );
+                
+                // Map the UV coordinate into each turbulence (caustic) cascade.
+                let uvC0_sample: vec2<f32> = sampleUV / uniforms.us_LengthScale0;
+                let uvC1_sample: vec2<f32> = sampleUV / uniforms.us_LengthScale1;
+                let uvC2_sample: vec2<f32> = sampleUV / uniforms.us_LengthScale2;
+                
+                // Sample the turbulence textures.
+                let caustic0_sample: vec4<f32> = textureSample(_Turbulence_c0, _Turbulence_c0Sampler, uvC0_sample);
+                let caustic1_sample: vec4<f32> = textureSample(_Turbulence_c1, _Turbulence_c1Sampler, uvC1_sample);
+                let caustic2_sample: vec4<f32> = textureSample(_Turbulence_c2, _Turbulence_c2Sampler, uvC2_sample);
+                
+                // Optionally, blend the cascades using depth-dependent weights.
+                let depth: f32 = -currentSamplePos.y;  // Depth is positive underwater.
+                let depthScale: f32 = 0.8;
+                let c2Weight: f32 = clamp(1.0 - depth / (20.0 * depthScale), 0.0, 1.0);
+                let c1Weight: f32 = clamp(1.0 - depth / (40.0 * depthScale), 0.0, 1.0);
+                let c0Weight: f32 = clamp(1.0 - depth / (80.0 * depthScale), 0.0, 1.0);
+                let sumWeights: f32 = c0Weight + c1Weight + c2Weight;
+                var sampleCaustic: vec4<f32> = vec4f(0.0);
+                if (sumWeights > 0.0001) {
+                    sampleCaustic = (c0Weight * caustic0_sample +
+                                     c1Weight * caustic1_sample +
+                                     c2Weight * caustic2_sample) / sumWeights;
+                }
+                
+                // Compute wavelength-dependent attenuation for this sample.
+                // For each channel: attenuation = exp(-sigma * accumulatedDistance)
+                let attenuationRGB: vec3<f32> = exp(-extinction * accumulatedDistance);
+                let attenuation: vec4<f32> = vec4f(attenuationRGB, 1.0);
+                
+                // Accumulate the weighted contribution.
+                volumetricContribution = volumetricContribution + sampleCaustic * attenuation * stepLength;
+            }
+        }
+        totalSteps++;
+    }
+    
+    // Finally, add the volumetric contribution to the fragment's color.
+    // Finally, apply fog.
+    fragmentOutputs.color = apply_fog(fragmentOutputs.color, d, -fragmentInputs.vPositionW.y);
+    fragmentOutputs.color = blend_overlay(
+        fragmentOutputs.color,
+        apply_distance_fog(
+            vec4f(
+                (volumetricContribution / f32(totalSteps /2u)).rgb,
+                1.),
+                d)
+            );
+    fragmentOutputs.color = blend_overlay(fragmentOutputs.color, apply_distance_fog(causticCombined, d));
+    }
+}
+
+
+
+
+        `,
+                    };
+                }
+                // For other cases, do nothing special
+                return null;
+            }
+        }
+        createScene = function () { return Playground.CreateScene(engine, engine.getRenderingCanvas()); }
+        window.initFunction = async function () {
+
+
+
+            var asyncEngineCreation = async function () {
+                try {
+                    return createDefaultEngine();
+                } catch (e) {
+                    console.log("the available createEngine function failed. Creating the default engine instead");
+                    return createDefaultEngine();
+                }
+            }
+
+            window.engine = await asyncEngineCreation();
+
+            const engineOptions = window.engine.getCreationOptions?.();
+            if (!engineOptions || engineOptions.audioEngine !== false) {
+
+            }
+            if (!engine) throw 'engine should not be null.';
+            startRenderLoop(engine, canvas);
+            window.scene = createScene();
+        };
+        initFunction().then(() => {
+            scene.then(returnedScene => { sceneToRender = returnedScene; });
+
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+
+</html>
