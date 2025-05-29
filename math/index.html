@@ -9,12 +9,10 @@
         body {
             font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         }
-        /* 为输入框聚焦时添加更明显的轮廓 */
         input[type="number"]:focus {
             outline: 2px solid #60a5fa; /* Tailwind blue-400 */
             outline-offset: 2px;
         }
-        /* 自定义按钮过渡效果 */
         .btn-primary {
             @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105;
         }
@@ -24,38 +22,56 @@
         .btn-warning {
             @apply bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105;
         }
-        /* 为反馈信息添加动画 */
         .feedback-animation {
             animation: fadeInScale 0.5s ease-out;
         }
         @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* 轮盘指针样式 */
+        .wheel-pointer {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #facc15; /* Tailwind yellow-400 */
+            position: absolute;
+            top: -10px; /* 调整指针位置使其在轮盘正上方突出一点 */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        /* 轮盘本身样式 */
+        #prize-wheel {
+            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); /* 平滑的缓动效果 */
+            /* background-image: url('YOUR_OPTIONAL_WHEEL_IMAGE_URL'); */ /* 您可以替换为真实的轮盘图片 */
+            background-size: cover;
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-200 via-indigo-200 to-purple-300 flex items-center justify-center min-h-screen p-4">
 
     <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg text-center">
-        <h1 class="text-3xl sm:text-4xl font-bold text-purple-600 mb-6">
+        <h1 class="text-3xl sm:text-4xl font-bold text-purple-600 mb-4">
             加减法大挑战！🚀
         </h1>
+
+        <div class="my-4 text-xl">
+            💰 游戏币: <span id="game-coins-display" class="font-bold text-yellow-500">0</span>
+        </div>
 
         <div id="game-area">
             <div class="mb-6 text-gray-700">
                 <p class="text-lg">
                     当前关卡: <span id="current-level" class="font-semibold text-xl text-indigo-600">1</span>
-                    (<span id="level-description" class="font-semibold text-indigo-500">10以内加减法</span>)
+                    (<span id="level-description" class="font-semibold text-indigo-500">20以内加减法</span>)
                 </p>
                 <p class="text-md mt-1">
                     本关进度: <span id="correct-answers-count" class="font-semibold text-green-600">0</span> /
-                    <span id="target-answers-count" class="font-semibold text-green-600">5</span>
+                    <span id="target-answers-count" class="font-semibold text-green-600">7</span>
                 </p>
             </div>
 
@@ -76,8 +92,7 @@
                 </button>
             </div>
 
-            <div id="feedback" class="mt-6 text-xl font-semibold min-h-[30px]">
-                </div>
+            <div id="feedback" class="mt-6 text-xl font-semibold min-h-[30px]"></div>
         </div>
 
         <div id="level-complete" class="hidden mt-8">
@@ -95,6 +110,21 @@
         </div>
     </div>
 
+    <div id="prize-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gradient-to-br from-purple-400 via-pink-400 to-red-400 p-6 sm:p-8 rounded-xl shadow-2xl text-white w-full max-w-md text-center">
+            <h2 class="text-3xl font-bold mb-6">幸运大轮盘! 🎡</h2>
+            <div class="relative w-64 h-64 sm:w-80 sm:h-80 mx-auto mb-6">
+                <div class="wheel-pointer"></div>
+                <div id="prize-wheel" class="w-full h-full rounded-full border-4 border-white shadow-lg bg-gray-200 flex items-center justify-center overflow-hidden">
+                    <img src="https://placehold.co/300x300/E2E8F0/4A5568?text=%E8%BD%AE%E7%9B%98&font=sans" alt="轮盘" class="w-full h-full object-cover rounded-full">
+                </div>
+            </div>
+            <div id="prize-result" class="text-xl font-semibold my-4 min-h-[30px]">点击“转动”开始抽奖！</div>
+            <button id="spin-button" class="btn-success w-full mb-3">转动!</button>
+            <button id="close-prize-modal-button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg w-full">关闭</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // HTML 元素获取
@@ -108,6 +138,7 @@
             const levelDescriptionEl = document.getElementById('level-description');
             const correctAnswersCountEl = document.getElementById('correct-answers-count');
             const targetAnswersCountEl = document.getElementById('target-answers-count');
+            const gameCoinsDisplayEl = document.getElementById('game-coins-display');
 
             const gameAreaEl = document.getElementById('game-area');
             const levelCompleteEl = document.getElementById('level-complete');
@@ -115,73 +146,92 @@
             const gameCompleteEl = document.getElementById('game-complete');
             const restartButton = document.getElementById('restart-button');
 
-            // 关卡定义
-            // maxNum: 题目中数字的最大值 (对于加法，和可能超过maxNum；对于减法，被减数和减数都在maxNum内)
-            // target: 需要答对多少题才能过关
+            // 轮盘抽奖相关元素
+            const prizeModalEl = document.getElementById('prize-modal');
+            const prizeWheelEl = document.getElementById('prize-wheel');
+            const spinButtonEl = document.getElementById('spin-button');
+            const prizeResultEl = document.getElementById('prize-result');
+            const closePrizeModalButtonEl = document.getElementById('close-prize-modal-button');
+
+            // 关卡定义 (从20以内开始)
             const levels = [
-                { maxNum: 10, description: "10以内加减法", target: 5 },
-                { maxNum: 20, description: "20以内加减法", target: 7 },
-                { maxNum: 50, description: "50以内加减法", target: 8 },
-                { maxNum: 100, description: "100以内加减法", target: 10 }
+                { maxNum: 20, description: "20以内加减法", target: 7 },   // 索引 0 (第1关)
+                { maxNum: 50, description: "50以内加减法", target: 8 },   // 索引 1 (第2关)
+                { maxNum: 100, description: "100以内加减法", target: 10 }, // 索引 2 (第3关)
+                { maxNum: 150, description: "150以内加减法", target: 10 }, // 索引 3 (第4关)
+                { maxNum: 200, description: "200以内加减法", target: 12 }, // 索引 4 (第5关 - 里程碑)
+                { maxNum: 250, description: "250以内加减法", target: 12 }, // 索引 5 (第6关)
+                { maxNum: 300, description: "300以内加减法", target: 15 }, // 索引 6 (第7关)
+                { maxNum: 400, description: "400以内加减法", target: 15 }, // 索引 7 (第8关)
+                { maxNum: 500, description: "500以内加减法", target: 15 }, // 索引 8 (第9关)
+                { maxNum: 700, description: "更高难度挑战", target: 20 }  // 索引 9 (第10关 - 里程碑)
             ];
 
-            let currentLevelIndex = 0; // 当前关卡索引
+            // 奖品定义 (总共10个槽位)
+            const prizes = [
+                { text: "十枚游戏币", coins: 10, slots: 1, color: 'gold' },       // 1个槽位
+                { text: "五枚游戏币", coins: 5, slots: 2, color: 'silver' },      // 2个槽位
+                { text: "一枚游戏币", coins: 1, slots: 3, color: 'bronze' },     // 3个槽位
+                { text: "再接再厉", coins: 0, slots: 4, color: 'lightgray' }    // 4个槽位
+            ];
+            let wheelSlotPrizes = []; // 用于实际抽奖的槽位列表
+
+            let currentLevelIndex = 0;
             let num1, num2, operator, correctAnswer;
-            let correctAnswersInLevel = 0; // 当前关卡已答对题目数量
+            let correctAnswersInLevel = 0;
+            let gameCoins = 0;
+            let completedLevelsCount = 0; // 已完成的关卡数，用于里程碑判断
+
+            // 初始化轮盘槽位奖品列表
+            function setupWheelSlots() {
+                wheelSlotPrizes = [];
+                prizes.forEach(prize => {
+                    for (let i = 0; i < prize.slots; i++) {
+                        wheelSlotPrizes.push(prize);
+                    }
+                });
+                // 可选：打乱wheelSlotPrizes数组，使每次轮盘上奖品分布看起来随机
+                // wheelSlotPrizes.sort(() => Math.random() - 0.5);
+            }
+
+            // 更新游戏币显示
+            function updateGameCoinsDisplay() {
+                gameCoinsDisplayEl.textContent = gameCoins;
+            }
 
             // 生成题目
             function generateProblem() {
                 const level = levels[currentLevelIndex];
                 const maxNumber = level.maxNum;
-
-                // 随机选择 '+' 或 '-'
                 operator = Math.random() < 0.5 ? '+' : '-';
-
-                num1 = Math.floor(Math.random() * (maxNumber + 1)); // 生成 0 到 maxNumber 之间的数
-                num2 = Math.floor(Math.random() * (maxNumber + 1)); // 生成 0 到 maxNumber 之间的数
+                num1 = Math.floor(Math.random() * (maxNumber + 1));
+                num2 = Math.floor(Math.random() * (maxNumber + 1));
 
                 if (operator === '-') {
-                    // 确保减法结果非负，如果 num1 < num2，则交换它们
-                    if (num1 < num2) {
-                        [num1, num2] = [num2, num1];
+                    if (num1 < num2) { [num1, num2] = [num2, num1]; }
+                    if (maxNumber <= 20 && num1 === 0 && num2 === 0) { // 调整了这里的maxNumber判断
+                        num1 = Math.floor(Math.random() * maxNumber) + 1;
+                        num2 = Math.floor(Math.random() * num1);
                     }
-                    // 避免在低级别出现过多 0-0 的情况
-                    if (maxNumber <= 10 && num1 === 0 && num2 === 0) {
-                        num1 = Math.floor(Math.random() * maxNumber) + 1; // 确保 num1 至少为 1
-                        num2 = Math.floor(Math.random() * num1);      // num2 小于 num1
-                    }
-                } else { // 加法
-                    // 对于加法，如果题目是 "10以内加法"，并且希望和也不超过10，可以在这里调整
-                    // 例如: if (maxNumber === 10 && num1 + num2 > 10) { // 重新生成或调整数字 }
-                    // 当前设计是操作数在 maxNumber 内，和可能超过 maxNumber
                 }
-
-                // 计算正确答案
-                if (operator === '+') {
-                    correctAnswer = num1 + num2;
-                } else {
-                    correctAnswer = num1 - num2;
-                }
-
-                // 更新界面显示
+                correctAnswer = (operator === '+') ? (num1 + num2) : (num1 - num2);
                 num1El.textContent = num1;
                 operatorEl.textContent = operator;
                 num2El.textContent = num2;
-
                 updateUIState();
             }
 
-            // 更新界面状态（关卡信息、进度等）
+            // 更新界面状态
             function updateUIState() {
                 const level = levels[currentLevelIndex];
-                currentLevelEl.textContent = currentLevelIndex + 1;
+                currentLevelEl.textContent = currentLevelIndex + 1; // 关卡从1开始显示
                 levelDescriptionEl.textContent = level.description;
                 correctAnswersCountEl.textContent = correctAnswersInLevel;
                 targetAnswersCountEl.textContent = level.target;
-                feedbackEl.textContent = ''; // 清空上一题的反馈
-                feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px]'; // 重置样式
-                answerInput.value = ''; // 清空输入框
-                answerInput.focus(); // 自动聚焦输入框
+                feedbackEl.textContent = '';
+                feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px]';
+                answerInput.value = '';
+                answerInput.focus();
             }
 
             // 检查答案
@@ -192,9 +242,7 @@
                     feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-yellow-600 feedback-animation';
                     return;
                 }
-
                 const userAnswer = parseInt(userAnswerText);
-
                 if (isNaN(userAnswer)) {
                     feedbackEl.textContent = "请输入有效的数字！🔢";
                     feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-red-500 feedback-animation';
@@ -205,76 +253,143 @@
                     feedbackEl.textContent = "答对啦！你真棒！🥳";
                     feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-green-500 feedback-animation';
                     correctAnswersInLevel++;
+                    correctAnswersCountEl.textContent = correctAnswersInLevel; // 实时更新答对题数
 
                     if (correctAnswersInLevel >= levels[currentLevelIndex].target) {
-                        // 关卡完成
-                        setTimeout(showLevelCompleteScreen, 1000); // 稍作停留后显示过关界面
+                        completedLevelsCount++; // 关卡完成，计数器增加
+                        setTimeout(() => showLevelCompleteScreen(true), 1200);
                     } else {
-                        // 继续本关下一题
                         setTimeout(generateProblem, 1200);
                     }
                 } else {
-                    feedbackEl.textContent = `不对哦，正确答案是 ${correctAnswer}。加油！💪`;
+                    feedbackEl.textContent = `不对哦，正确答案是 ${correctAnswer}。加油！�`;
                     feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-red-500 feedback-animation';
-                    // 答错可以考虑是否重置连续答对次数，或采取其他策略
-                    // correctAnswersInLevel = 0; // 如果希望答错后本关重新计数，可以取消这行注释
-
-                    // 答错后也出下一题
-                    setTimeout(generateProblem, 2500); // 错误提示停留时间长一些
+                    setTimeout(generateProblem, 2500);
                 }
-                // 实时更新进度
-                correctAnswersCountEl.textContent = correctAnswersInLevel;
             }
 
             // 显示关卡完成界面
-            function showLevelCompleteScreen() {
-                gameAreaEl.classList.add('hidden'); // 隐藏游戏区域
-                if (currentLevelIndex >= levels.length - 1) {
-                    // 所有关卡完成
+            function showLevelCompleteScreen(levelWasBeaten) {
+                gameAreaEl.classList.add('hidden');
+                if (levelWasBeaten && currentLevelIndex >= levels.length - 1) {
                     gameCompleteEl.classList.remove('hidden');
-                } else {
-                    // 进入下一关
+                } else if (levelWasBeaten) {
                     levelCompleteEl.classList.remove('hidden');
                 }
             }
 
-            // 进入下一关
+            // 进入下一关的逻辑（点击“挑战下一关”按钮后）
             function goToNextLevel() {
-                currentLevelIndex++;
-                correctAnswersInLevel = 0; // 重置本关答对题数
-                levelCompleteEl.classList.add('hidden'); // 隐藏过关提示
-                gameAreaEl.classList.remove('hidden'); // 显示游戏区域
-                if (currentLevelIndex < levels.length) {
-                    generateProblem(); // 生成新关卡的题目
+                levelCompleteEl.classList.add('hidden'); // 隐藏“关卡完成”提示
+
+                // 检查是否达到里程碑 (已完成关卡数是5的倍数)
+                if (completedLevelsCount > 0 && completedLevelsCount % 5 === 0) {
+                    prizeModalEl.classList.remove('hidden');
+                    prizeResultEl.textContent = "点击“转动”开始抽奖！";
+                    spinButtonEl.disabled = false;
+                    // 重置轮盘视觉效果
+                    prizeWheelEl.style.transition = 'none'; // 移除过渡以便立即重置
+                    prizeWheelEl.style.transform = 'rotate(0deg)';
+                    void prizeWheelEl.offsetWidth; // 强制浏览器重新计算样式
                 } else {
-                    // 这个情况理论上由 showLevelCompleteScreen 中的 gameCompleteEl 处理
-                    console.error("试图进入一个不存在的关卡");
+                    proceedToActualNextLevel(); // 非里程碑，直接进入下一关
                 }
             }
+
+            // 实际执行进入下一关卡的操作
+            function proceedToActualNextLevel() {
+                prizeModalEl.classList.add('hidden'); // 确保抽奖弹窗已关闭
+
+                currentLevelIndex++; // 增加关卡索引
+                correctAnswersInLevel = 0; // 重置本关答对题数
+
+                if (currentLevelIndex < levels.length) {
+                    gameAreaEl.classList.remove('hidden');
+                    generateProblem(); // 为新关卡出题
+                } else {
+                    // 所有关卡已完成 (理论上这应该由showLevelCompleteScreen处理)
+                    gameAreaEl.classList.add('hidden');
+                    gameCompleteEl.classList.remove('hidden');
+                }
+            }
+
+            // 轮盘抽奖逻辑
+            function spinWheel() {
+                spinButtonEl.disabled = true;
+                prizeResultEl.textContent = "转动中...";
+
+                const totalWheelSlots = wheelSlotPrizes.length; // 应该是10
+                const winningSlotTrueIndex = Math.floor(Math.random() * totalWheelSlots);
+                const winningPrize = wheelSlotPrizes[winningSlotTrueIndex];
+
+                // 计算旋转角度，让轮盘指针最终指向中奖区域的中间
+                // 为了简化，我们假设指针固定在顶部，轮盘旋转
+                // 每个槽位角度 = 360 / totalWheelSlots
+                // winningAngle是让第winningSlotTrueIndex个槽位的中心对准指针的角度
+                // 视觉上，我们让轮盘多转几圈再慢慢停下
+                const degreesPerSlot = 360 / totalWheelSlots;
+                // 目标是让第 winningSlotTrueIndex 的中心对准指针（0度位置）
+                // 旋转角度应该是让该槽位的起始点转到指针后，再加半个槽位的角度
+                // 为了简单起见，我们随机选择一个停止点，然后反推中奖项目
+                // 或者，更直接：让轮盘转到特定角度，该角度对应于中奖奖品
+                // 假设第0个槽位是0-36度，第1个是36-72度等。
+                // 我们要让指针（假设在0度）指向 winningPrize。
+                // 轮盘需要旋转的角度 = (总旋转圈数 * 360) - (中奖槽位的中心角度)
+                // 这里的 (中奖槽位的中心角度) 是相对于轮盘0度位置的。
+                // 比如第一个槽位中心是18度，第二个是54度。
+                // 如果指针在顶部(0deg)，轮盘要转 -(winningSlotTrueIndex * degreesPerSlot + degreesPerSlot / 2)
+                // 再加上几圈完整的旋转
+                const randomOffsetWithinSlot = (Math.random() - 0.5) * degreesPerSlot * 0.8; // 在槽内小幅随机偏移
+                const targetRotation = (360 * (Math.floor(Math.random() * 3) + 3)) - (winningSlotTrueIndex * degreesPerSlot + degreesPerSlot / 2 + randomOffsetWithinSlot);
+
+
+                prizeWheelEl.style.transition = 'transform 4s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                prizeWheelEl.style.transform = `rotate(${targetRotation}deg)`;
+
+                setTimeout(() => {
+                    prizeResultEl.innerHTML = `恭喜你获得: <span class="font-bold text-yellow-300">${winningPrize.text}</span>!`;
+                    if (winningPrize.coins > 0) {
+                        gameCoins += winningPrize.coins;
+                        updateGameCoinsDisplay();
+                    }
+                    // spinButtonEl.disabled = false; // 转动一次后，按钮保持禁用，直到关闭弹窗再进入下一关
+                }, 4100); // 比动画时间稍长一点
+            }
+
 
             // 重新开始游戏
             function restartGame() {
                 currentLevelIndex = 0;
                 correctAnswersInLevel = 0;
-                gameCompleteEl.classList.add('hidden'); // 隐藏通关提示
-                levelCompleteEl.classList.add('hidden'); // 以防万一也隐藏这个
-                gameAreaEl.classList.remove('hidden'); // 显示游戏区域
-                generateProblem(); // 开始第一关
+                completedLevelsCount = 0;
+                gameCoins = 0; // 重置游戏币
+                updateGameCoinsDisplay();
+                gameCompleteEl.classList.add('hidden');
+                levelCompleteEl.classList.add('hidden'); // 确保这个也隐藏
+                prizeModalEl.classList.add('hidden'); // 确保抽奖弹窗也隐藏
+                gameAreaEl.classList.remove('hidden');
+                generateProblem();
             }
 
             // 事件监听
             submitButton.addEventListener('click', checkAnswer);
             answerInput.addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    checkAnswer();
-                }
+                if (event.key === 'Enter') { checkAnswer(); }
             });
             nextLevelButton.addEventListener('click', goToNextLevel);
             restartButton.addEventListener('click', restartGame);
+            spinButtonEl.addEventListener('click', spinWheel);
+            closePrizeModalButtonEl.addEventListener('click', () => {
+                // 关闭抽奖弹窗后，才真正进入下一关卡
+                proceedToActualNextLevel();
+            });
 
             // 初始化游戏
-            generateProblem();
+            setupWheelSlots();
+            updateGameCoinsDisplay();
+            generateProblem(); // 开始游戏第一关
         });
     </script>
 </body>
 </html>
+�
