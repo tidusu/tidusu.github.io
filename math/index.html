@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加减法大挑战！</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        /* 为输入框聚焦时添加更明显的轮廓 */
+        input[type="number"]:focus {
+            outline: 2px solid #60a5fa; /* Tailwind blue-400 */
+            outline-offset: 2px;
+        }
+        /* 自定义按钮过渡效果 */
+        .btn-primary {
+            @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105;
+        }
+        .btn-success {
+            @apply bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105;
+        }
+        .btn-warning {
+            @apply bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105;
+        }
+        /* 为反馈信息添加动画 */
+        .feedback-animation {
+            animation: fadeInScale 0.5s ease-out;
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-200 via-indigo-200 to-purple-300 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg text-center">
+        <h1 class="text-3xl sm:text-4xl font-bold text-purple-600 mb-6">
+            加减法大挑战！🚀
+        </h1>
+
+        <div id="game-area">
+            <div class="mb-6 text-gray-700">
+                <p class="text-lg">
+                    当前关卡: <span id="current-level" class="font-semibold text-xl text-indigo-600">1</span>
+                    (<span id="level-description" class="font-semibold text-indigo-500">10以内加减法</span>)
+                </p>
+                <p class="text-md mt-1">
+                    本关进度: <span id="correct-answers-count" class="font-semibold text-green-600">0</span> /
+                    <span id="target-answers-count" class="font-semibold text-green-600">5</span>
+                </p>
+            </div>
+
+            <div id="problem-section" class="my-8 p-6 bg-indigo-50 rounded-lg shadow">
+                <span id="num1" class="text-5xl sm:text-6xl font-bold text-blue-600"></span>
+                <span id="operator" class="text-5xl sm:text-6xl font-bold text-red-500 mx-2 sm:mx-4"></span>
+                <span id="num2" class="text-5xl sm:text-6xl font-bold text-blue-600"></span>
+                <span class="text-5xl sm:text-6xl font-bold text-gray-700 mx-2 sm:mx-4">=</span>
+                <span class="text-5xl sm:text-6xl font-bold text-gray-700">?</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <input type="number" id="answer-input" inputmode="numeric" pattern="[0-9]*"
+                       class="text-2xl p-3 border-2 border-gray-300 rounded-lg w-full sm:w-48 text-center shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors"
+                       placeholder="输入答案">
+                <button id="submit-button" class="btn-primary w-full sm:w-auto">
+                    提交答案
+                </button>
+            </div>
+
+            <div id="feedback" class="mt-6 text-xl font-semibold min-h-[30px]">
+                </div>
+        </div>
+
+        <div id="level-complete" class="hidden mt-8">
+            <h2 class="text-3xl font-bold text-green-500 mb-4">🎉 恭喜！你已完成本关！🎉</h2>
+            <button id="next-level-button" class="btn-success">
+                挑战下一关
+            </button>
+        </div>
+
+        <div id="game-complete" class="hidden mt-8">
+            <h2 class="text-3xl font-bold text-yellow-500 mb-4">🏆 太棒了！你已完成所有挑战！🏆</h2>
+            <button id="restart-button" class="btn-warning">
+                重新开始
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // HTML 元素获取
+            const num1El = document.getElementById('num1');
+            const operatorEl = document.getElementById('operator');
+            const num2El = document.getElementById('num2');
+            const answerInput = document.getElementById('answer-input');
+            const submitButton = document.getElementById('submit-button');
+            const feedbackEl = document.getElementById('feedback');
+            const currentLevelEl = document.getElementById('current-level');
+            const levelDescriptionEl = document.getElementById('level-description');
+            const correctAnswersCountEl = document.getElementById('correct-answers-count');
+            const targetAnswersCountEl = document.getElementById('target-answers-count');
+
+            const gameAreaEl = document.getElementById('game-area');
+            const levelCompleteEl = document.getElementById('level-complete');
+            const nextLevelButton = document.getElementById('next-level-button');
+            const gameCompleteEl = document.getElementById('game-complete');
+            const restartButton = document.getElementById('restart-button');
+
+            // 关卡定义
+            // maxNum: 题目中数字的最大值 (对于加法，和可能超过maxNum；对于减法，被减数和减数都在maxNum内)
+            // target: 需要答对多少题才能过关
+            const levels = [
+                { maxNum: 10, description: "10以内加减法", target: 5 },
+                { maxNum: 20, description: "20以内加减法", target: 7 },
+                { maxNum: 50, description: "50以内加减法", target: 8 },
+                { maxNum: 100, description: "100以内加减法", target: 10 }
+            ];
+
+            let currentLevelIndex = 0; // 当前关卡索引
+            let num1, num2, operator, correctAnswer;
+            let correctAnswersInLevel = 0; // 当前关卡已答对题目数量
+
+            // 生成题目
+            function generateProblem() {
+                const level = levels[currentLevelIndex];
+                const maxNumber = level.maxNum;
+
+                // 随机选择 '+' 或 '-'
+                operator = Math.random() < 0.5 ? '+' : '-';
+
+                num1 = Math.floor(Math.random() * (maxNumber + 1)); // 生成 0 到 maxNumber 之间的数
+                num2 = Math.floor(Math.random() * (maxNumber + 1)); // 生成 0 到 maxNumber 之间的数
+
+                if (operator === '-') {
+                    // 确保减法结果非负，如果 num1 < num2，则交换它们
+                    if (num1 < num2) {
+                        [num1, num2] = [num2, num1];
+                    }
+                    // 避免在低级别出现过多 0-0 的情况
+                    if (maxNumber <= 10 && num1 === 0 && num2 === 0) {
+                        num1 = Math.floor(Math.random() * maxNumber) + 1; // 确保 num1 至少为 1
+                        num2 = Math.floor(Math.random() * num1);      // num2 小于 num1
+                    }
+                } else { // 加法
+                    // 对于加法，如果题目是 "10以内加法"，并且希望和也不超过10，可以在这里调整
+                    // 例如: if (maxNumber === 10 && num1 + num2 > 10) { // 重新生成或调整数字 }
+                    // 当前设计是操作数在 maxNumber 内，和可能超过 maxNumber
+                }
+
+                // 计算正确答案
+                if (operator === '+') {
+                    correctAnswer = num1 + num2;
+                } else {
+                    correctAnswer = num1 - num2;
+                }
+
+                // 更新界面显示
+                num1El.textContent = num1;
+                operatorEl.textContent = operator;
+                num2El.textContent = num2;
+
+                updateUIState();
+            }
+
+            // 更新界面状态（关卡信息、进度等）
+            function updateUIState() {
+                const level = levels[currentLevelIndex];
+                currentLevelEl.textContent = currentLevelIndex + 1;
+                levelDescriptionEl.textContent = level.description;
+                correctAnswersCountEl.textContent = correctAnswersInLevel;
+                targetAnswersCountEl.textContent = level.target;
+                feedbackEl.textContent = ''; // 清空上一题的反馈
+                feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px]'; // 重置样式
+                answerInput.value = ''; // 清空输入框
+                answerInput.focus(); // 自动聚焦输入框
+            }
+
+            // 检查答案
+            function checkAnswer() {
+                const userAnswerText = answerInput.value.trim();
+                if (userAnswerText === '') {
+                    feedbackEl.textContent = "请输入答案哦！✍️";
+                    feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-yellow-600 feedback-animation';
+                    return;
+                }
+
+                const userAnswer = parseInt(userAnswerText);
+
+                if (isNaN(userAnswer)) {
+                    feedbackEl.textContent = "请输入有效的数字！🔢";
+                    feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-red-500 feedback-animation';
+                    return;
+                }
+
+                if (userAnswer === correctAnswer) {
+                    feedbackEl.textContent = "答对啦！你真棒！🥳";
+                    feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-green-500 feedback-animation';
+                    correctAnswersInLevel++;
+
+                    if (correctAnswersInLevel >= levels[currentLevelIndex].target) {
+                        // 关卡完成
+                        setTimeout(showLevelCompleteScreen, 1000); // 稍作停留后显示过关界面
+                    } else {
+                        // 继续本关下一题
+                        setTimeout(generateProblem, 1200);
+                    }
+                } else {
+                    feedbackEl.textContent = `不对哦，正确答案是 ${correctAnswer}。加油！💪`;
+                    feedbackEl.className = 'mt-6 text-xl font-semibold min-h-[30px] text-red-500 feedback-animation';
+                    // 答错可以考虑是否重置连续答对次数，或采取其他策略
+                    // correctAnswersInLevel = 0; // 如果希望答错后本关重新计数，可以取消这行注释
+
+                    // 答错后也出下一题
+                    setTimeout(generateProblem, 2500); // 错误提示停留时间长一些
+                }
+                // 实时更新进度
+                correctAnswersCountEl.textContent = correctAnswersInLevel;
+            }
+
+            // 显示关卡完成界面
+            function showLevelCompleteScreen() {
+                gameAreaEl.classList.add('hidden'); // 隐藏游戏区域
+                if (currentLevelIndex >= levels.length - 1) {
+                    // 所有关卡完成
+                    gameCompleteEl.classList.remove('hidden');
+                } else {
+                    // 进入下一关
+                    levelCompleteEl.classList.remove('hidden');
+                }
+            }
+
+            // 进入下一关
+            function goToNextLevel() {
+                currentLevelIndex++;
+                correctAnswersInLevel = 0; // 重置本关答对题数
+                levelCompleteEl.classList.add('hidden'); // 隐藏过关提示
+                gameAreaEl.classList.remove('hidden'); // 显示游戏区域
+                if (currentLevelIndex < levels.length) {
+                    generateProblem(); // 生成新关卡的题目
+                } else {
+                    // 这个情况理论上由 showLevelCompleteScreen 中的 gameCompleteEl 处理
+                    console.error("试图进入一个不存在的关卡");
+                }
+            }
+
+            // 重新开始游戏
+            function restartGame() {
+                currentLevelIndex = 0;
+                correctAnswersInLevel = 0;
+                gameCompleteEl.classList.add('hidden'); // 隐藏通关提示
+                levelCompleteEl.classList.add('hidden'); // 以防万一也隐藏这个
+                gameAreaEl.classList.remove('hidden'); // 显示游戏区域
+                generateProblem(); // 开始第一关
+            }
+
+            // 事件监听
+            submitButton.addEventListener('click', checkAnswer);
+            answerInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+            nextLevelButton.addEventListener('click', goToNextLevel);
+            restartButton.addEventListener('click', restartGame);
+
+            // 初始化游戏
+            generateProblem();
+        });
+    </script>
+</body>
+</html>
